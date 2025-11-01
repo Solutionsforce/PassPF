@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="success-box">
+    <h2>✓ Agendamento Processado com Sucesso!</h2>
+    <p>Sua solicitação de agendamento foi registrada.</p>
+</div>
+
+<div class="info-section">
+    <h3>Detalhes do Agendamento</h3>
+    <p><strong>Quantidade de solicitações:</strong> {{ quantidade }}</p>
+    <p><strong>Protocolo:</strong> {{ protocolo }}</p>
+    <p><strong>Data de registro:</strong> {{ data }}</p>
+    
+    <div class="alert" style="margin-top: 20px;">
+        <strong>PRÓXIMOS PASSOS:</strong><br>
+        1. Aguarde a confirmação por e-mail<br>
+        2. Verifique a disponibilidade de datas no posto de expedição<br>
+        3. Leve todos os documentos necessários no dia agendado
+    </div>
+    
+    <a href="{{ url_for('index') }}" class="back-button">← VOLTAR À PÁGINA INICIAL</a>
+</div>
+{% endblock %}

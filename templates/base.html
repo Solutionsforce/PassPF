@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Divisão de passaporte{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="top-bar">
+        <span>Conteúdo</span>
+        <span class="key">1</span>
+        <span>Menu</span>
+        <span class="key">2</span>
+        <span>Fim</span>
+        <span class="key">3</span>
+        <span>Acessibilidade</span>
+        <span class="key">4</span>
+        <span>Alto contraste</span>
+        <span class="key">5</span>
+    </div>
+    
+    <div class="header">
+        <img src="https://servicos.pf.gov.br/sinpa/jsp/v2/images/logo.png" 
+             alt="Brasão da Polícia Federal do Brasil, escudo dourado com detalhes verdes e vermelhos, e o texto 'Polícia Federal'" 
+             width="50" height="60">
+        <div class="title">Divisão de passaporte</div>
+        <div class="subtitle">Coordenação-Geral de Polícia de Imigração</div>
+    </div>
+    
+    <nav class="navbar">
+        <button class="navbar-toggler" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+    
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

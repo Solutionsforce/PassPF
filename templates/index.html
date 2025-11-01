@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="aviso-title">Aviso importante</div>
+<div class="aviso-box">
+    <span class="main-blue">
+        Para o agendamento eletrônico é necessário ter realizado a solicitação de passaporte.
+    </span>
+    <div class="normal">
+        Caso não tenha ainda preenchido sua solicitação, clique em "Solicitação de passaporte" e em seguida clique em
+        <a href="#">"Nova solicitação"</a>.
+    </div>
+    <div class="alert">
+        <strong>ATENÇÃO:</strong>
+        PARA O AGENDAMENTO NO POSTO DE EXPEDIÇÃO DO PASSAPORTE É NECESSÁRIO O PAGAMENTO DA GRU E CORRESPONDENTE COMPENSAÇÃO BANCÁRIA.
+    </div>
+    <form method="POST" action="{{ url_for('agendar') }}">
+        <div class="form-section">
+            <label for="quantidade">Informe a quantidade de solicitações a agendar:</label>
+            <select id="quantidade" name="quantidade">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <input type="submit" value="PROSSEGUIR">
+    </form>
+</div>
+{% endblock %}
