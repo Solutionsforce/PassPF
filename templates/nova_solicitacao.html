@@ -11,10 +11,10 @@
 
 <div class="main-box">
     <div class="main-box-content">
-        <a href="#" class="nav-link active">Dados pessoais</a>
-        <a href="#" class="nav-link">Documentos</a>
-        <a href="#" class="nav-link">Dados complementares</a>
-        <a href="#" class="nav-link">Revisar dados</a>
+        <a href="{{ url_for('dados_pessoais') }}" class="nav-link {% if secao == 'dados-pessoais' %}active{% endif %}">Dados pessoais</a>
+        <a href="{{ url_for('documentos') }}" class="nav-link {% if secao == 'documentos' %}active{% endif %}">Documentos</a>
+        <a href="#" class="nav-link {% if secao == 'dados-complementares' %}active{% endif %}">Dados complementares</a>
+        <a href="#" class="nav-link {% if secao == 'revisar-dados' %}active{% endif %}">Revisar dados</a>
     </div>
     <div class="main-box-footer">
         (*) Preenchimento Obrigatório
@@ -24,23 +24,23 @@
 <div class="form-container-wrapper">
     <div class="form-container">
         <div class="form-title">Dados Pessoais</div>
-        <form method="POST" action="#">
+        <form method="POST" action="{{ url_for('dados_pessoais') }}">
             <div class="form-group">
                 <label class="form-label required" for="nome">Nome completo</label>
-                <input class="form-input" type="text" id="nome" name="nome">
+                <input class="form-input" type="text" id="nome" name="nome" value="{{ dados.get('nome', '') }}">
             </div>
             <div class="form-group">
                 <label class="form-label required" for="sexo">Sexo</label>
                 <select class="form-select" id="sexo" name="sexo">
-                    <option value="" selected disabled></option>
-                    <option value="masculino">Masculino</option>
-                    <option value="feminino">Feminino</option>
-                    <option value="outro">Outro</option>
+                    <option value="" {% if not dados.get('sexo') %}selected{% endif %} disabled></option>
+                    <option value="masculino" {% if dados.get('sexo') == 'masculino' %}selected{% endif %}>Masculino</option>
+                    <option value="feminino" {% if dados.get('sexo') == 'feminino' %}selected{% endif %}>Feminino</option>
+                    <option value="outro" {% if dados.get('sexo') == 'outro' %}selected{% endif %}>Outro</option>
                 </select>
             </div>
             <div class="form-group">
                 <label class="form-label" for="filiacao1">Filiação 1:</label>
-                <input class="form-input" type="text" id="filiacao1" name="filiacao1">
+                <input class="form-input" type="text" id="filiacao1" name="filiacao1" value="{{ dados.get('filiacao1', '') }}">
             </div>
             <div class="form-group">
                 <label class="form-label" for="sexo_filiacao1">Sexo:</label>

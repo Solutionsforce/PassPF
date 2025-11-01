@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime
 import random
 import string
 
 app = Flask(__name__)
+app.secret_key = 'sua_chave_secreta_aqui_123456'
 
 def gerar_protocolo():
     letras = ''.join(random.choices(string.ascii_uppercase, k=2))
@@ -16,7 +17,44 @@ def index():
 
 @app.route('/nova-solicitacao')
 def nova_solicitacao():
-    return render_template('nova_solicitacao.html')
+    session.clear()
+    return render_template('nova_solicitacao.html', secao='dados-pessoais', dados={})
+
+@app.route('/nova-solicitacao/dados-pessoais', methods=['GET', 'POST'])
+def dados_pessoais():
+    if request.method == 'POST':
+        session['dados_pessoais'] = request.form.to_dict()
+        return redirect(url_for('documentos'))
+    
+    dados = session.get('dados_pessoais', {})
+    return render_template('nova_solicitacao.html', secao='dados-pessoais', dados=dados)
+
+@app.route('/nova-solicitacao/documentos', methods=['GET', 'POST'])
+def documentos():
+    if request.method == 'POST':
+        session['documentos'] = request.form.to_dict()
+        return redirect(url_for('dados_complementares'))
+    
+    dados = session.get('documentos', {})
+    return render_template('documentos.html', secao='documentos', dados=dados)
+
+@app.route('/nova-solicitacao/dados-complementares', methods=['GET', 'POST'])
+def dados_complementares():
+    if request.method == 'POST':
+        session['dados_complementares'] = request.form.to_dict()
+        return redirect(url_for('revisar_dados'))
+    
+    dados = session.get('dados_complementares', {})
+    return render_template('nova_solicitacao.html', secao='dados-complementares', dados=dados)
+
+@app.route('/nova-solicitacao/revisar-dados')
+def revisar_dados():
+    dados_completos = {
+        'dados_pessoais': session.get('dados_pessoais', {}),
+        'documentos': session.get('documentos', {}),
+        'dados_complementares': session.get('dados_complementares', {})
+    }
+    return render_template('nova_solicitacao.html', secao='revisar-dados', dados=dados_completos)
 
 @app.route('/agendar', methods=['POST'])
 def agendar():
