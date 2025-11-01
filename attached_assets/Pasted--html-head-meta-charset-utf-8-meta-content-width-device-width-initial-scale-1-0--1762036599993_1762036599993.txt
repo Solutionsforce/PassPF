@@ -1,0 +1,286 @@
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Divisão de passaporte
+  </title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #fff;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-size: 12px;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .top-bar {
+            background: #337ab7;
+            color: #fff;
+            padding: 10px 8px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            white-space: nowrap;
+            overflow-x: auto;
+        }
+        .top-bar span {
+            margin-right: 6px;
+        }
+        .top-bar .key {
+            background: #fff;
+            color: #337ab7;
+            border-radius: 2px;
+            padding: 0px 3px;
+            font-weight: bold;
+            font-size: 10px;
+            margin-left: 3px;
+            margin-right: 8px;
+            display: inline-block;
+        }
+        .header {
+            background: #337ab7;
+            color: #fff;
+            text-align: center;
+            padding-top: 8px;
+            padding-bottom: 12px;
+            position: relative;
+        }
+        .header img {
+            width: 50px;
+            height: auto;
+            margin-bottom: 4px;
+        }
+        .header .title {
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 2px;
+        }
+        .header .subtitle {
+            font-size: 12px;
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+        .navbar {
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .navbar-toggler {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 35px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .navbar-toggler .navbar-toggler-icon {
+            display: inline-block;
+            width: 1.2em;
+            height: 1.2em;
+            vertical-align: middle;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 100%;
+        }
+        .main-content {
+            background: #fff;
+            padding: 0;
+            margin: 0;
+        }
+        .aviso-title {
+            font-size: 20px;
+            font-weight: 400;
+            color: #333;
+            margin: 15px 0 10px 15px;
+        }
+        .aviso-box {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 0 5px 15px 5px;
+            padding: 15px 10px;
+            font-size: 12px;
+            color: #333;
+        }
+        .aviso-box .main-blue {
+            color: #337ab7;
+            font-weight: 700;
+            font-size: 14px;
+            text-align: center;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .aviso-box .normal {
+            color: #333;
+            font-size: 12px;
+            font-weight: 400;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        .aviso-box .normal a {
+            color: #337ab7;
+            text-decoration: none;
+        }
+        .aviso-box .alert {
+            background: #f8d7da;
+            color: #a94442;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: 400;
+            margin-top: 12px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .aviso-box .alert strong {
+            font-weight: 700;
+        }
+        .aviso-box .form-section {
+            margin-top: 12px;
+            font-size: 12px;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+        .aviso-box label {
+            margin-right: 4px;
+            font-size: 12px;
+        }
+        .aviso-box select {
+            font-size: 12px;
+            padding: 2px 4px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            margin-right: 8px;
+            width: 40px;
+        }
+        .aviso-box button {
+            background: #337ab7;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 400;
+            padding: 6px 25px;
+            cursor: pointer;
+            margin-top: 8px;
+            display: block;
+            margin: 12px auto 0;
+        }
+        .aviso-box button:hover {
+            background: #286090;
+        }
+  </style>
+ </head>
+ <body>
+  <div class="top-bar">
+   <span>
+    Conteúdo
+   </span>
+   <span class="key">
+    1
+   </span>
+   <span>
+    Menu
+   </span>
+   <span class="key">
+    2
+   </span>
+   <span>
+    Fim
+   </span>
+   <span class="key">
+    3
+   </span>
+   <span>
+    Acessibilidade
+   </span>
+   <span class="key">
+    4
+   </span>
+   <span>
+    Alto contraste
+   </span>
+   <span class="key">
+    5
+   </span>
+  </div>
+  <div class="header">
+   <img alt="Brasão da Polícia Federal do Brasil, escudo dourado com detalhes verdes e vermelhos, e o texto 'Polícia Federal'" height="60" src="https://servicos.pf.gov.br/sinpa/jsp/v2/images/logo.png" width="50"/>
+   <div class="title">
+    Divisão de passaporte
+   </div>
+   <div class="subtitle">
+    Coordenação-Geral de Polícia de Imigração
+   </div>
+  </div>
+  <nav class="navbar">
+   <button class="navbar-toggler" type="button">
+    <span class="navbar-toggler-icon">
+    </span>
+   </button>
+  </nav>
+  <div class="main-content">
+   <div class="aviso-title">
+    Aviso importante
+   </div>
+   <div class="aviso-box">
+    <span class="main-blue">
+     Para o agendamento eletrônico é necessário ter realizado a solicitação de passaporte.
+    </span>
+    <div class="normal">
+     Caso não tenha ainda preenchido sua solicitação, clique em "Solicitação de passaporte" e em seguida clique em
+     <a href="#">
+      "Nova solicitação"
+     </a>
+     .
+    </div>
+    <div class="alert">
+     <strong>
+      ATENÇÃO:
+     </strong>
+     PARA O AGENDAMENTO NO POSTO DE EXPEDIÇÃO DO PASSAPORTE É NECESSÁRIO O PAGAMENTO DA GRU E CORRESPONDENTE COMPENSAÇÃO BANCÁRIA.
+    </div>
+    <div class="form-section">
+     <label for="quantidade">
+      Informe a quantidade de solicitações a agendar:
+     </label>
+     <select id="quantidade" name="quantidade">
+      <option selected="" value="1">
+       1
+      </option>
+      <option value="2">
+       2
+      </option>
+      <option value="3">
+       3
+      </option>
+      <option value="4">
+       4
+      </option>
+      <option value="5">
+       5
+      </option>
+     </select>
+    </div>
+    <button>
+     PROSSEGUIR
+    </button>
+   </div>
+  </div>
+ </body>
+</html>
