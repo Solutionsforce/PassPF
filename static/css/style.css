@@ -201,6 +201,26 @@ body {
     background: #286090;
 }
 
+.nova-solicitacao-btn {
+    background: #337ab7;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 6px 25px;
+    cursor: pointer;
+    margin: 12px auto 12px;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    width: fit-content;
+}
+
+.nova-solicitacao-btn:hover {
+    background: #286090;
+}
+
 .success-box {
     background: #d4edda;
     border: 1px solid #c3e6cb;
