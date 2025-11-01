@@ -31,13 +31,50 @@
     </div>
     
     <nav class="navbar">
-        <button class="navbar-toggler" type="button">
+        <button class="navbar-toggler" type="button" id="menuToggle">
             <span class="navbar-toggler-icon"></span>
         </button>
     </nav>
     
+    <div class="sidebar-menu" id="sidebarMenu">
+        <div class="sidebar-header">
+            <h3>Menu</h3>
+            <button class="close-btn" id="closeMenu">&times;</button>
+        </div>
+        <ul class="sidebar-items">
+            <li><a href="#">Instruções para obter seu passaporte</a></li>
+            <li><a href="#">Solicitação de passaporte</a></li>
+            <li><a href="#">Agendamento de atendimento</a></li>
+            <li><a href="#">Outros serviços</a></li>
+        </ul>
+    </div>
+    
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
     <div class="main-content">
         {% block content %}{% endblock %}
     </div>
+    
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const closeMenu = document.getElementById('closeMenu');
+        const sidebarMenu = document.getElementById('sidebarMenu');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        
+        menuToggle.addEventListener('click', function() {
+            sidebarMenu.classList.add('active');
+            sidebarOverlay.classList.add('active');
+        });
+        
+        closeMenu.addEventListener('click', function() {
+            sidebarMenu.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+        
+        sidebarOverlay.addEventListener('click', function() {
+            sidebarMenu.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+    </script>
 </body>
 </html>
