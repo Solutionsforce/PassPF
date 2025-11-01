@@ -1,0 +1,389 @@
+<html>
+<head>
+  <title>Formulário Completo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Arial:400,700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #f8f8f8;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 10px 7px 16px 7px;
+      box-sizing: border-box;
+      min-height: 100vh;
+    }
+    /* --- DADOS PESSOAIS (primeira parte) --- */
+    .form-container {
+      background: #f7f7f7;
+      border: 1px solid #e0e0e0;
+      border-radius: 0;
+      padding: 14px 8px 8px 8px;
+      max-width: 100%;
+      margin: 0 0 18px 0;
+    }
+    .form-title {
+      color: #2176bc;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      margin-top: 0;
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    .form-label {
+      display: block;
+      color: #444;
+      font-size: 15px;
+      font-weight: 400;
+      margin-bottom: 3px;
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+    .form-label.required:after {
+      content: "*";
+      color: #444;
+      margin-left: 2px;
+    }
+    .form-input,
+    .form-select {
+      width: 100%;
+      font-size: 14px;
+      padding: 5px 8px;
+      border: 2px solid #d3d3d3;
+      border-radius: 7px;
+      box-sizing: border-box;
+      font-family: 'Roboto', Arial, sans-serif;
+      background: #fff;
+      color: #444;
+      outline: none;
+      transition: border 0.2s;
+      height: 32px;
+    }
+    .form-input:focus,
+    .form-select:focus {
+      border-color: #2176bc;
+    }
+    .form-checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 14px;
+      color: #444;
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+    .form-checkbox {
+      width: 16px;
+      height: 16px;
+      margin-right: 6px;
+      accent-color: #2176bc;
+    }
+    .date-placeholder {
+      color: #bdbdbd;
+      letter-spacing: 2px;
+      font-size: 14px;
+      font-family: 'Roboto', Arial, sans-serif;
+    }
+    select.form-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: #fff url('data:image/svg+xml;utf8,<svg fill="gray" height="16" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M7.293 7.293a1 1 0 011.414 0L10 8.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z"/></svg>') no-repeat right 8px center/16px 16px;
+      padding-right: 28px;
+    }
+    @media (max-width: 600px) {
+      .form-container {
+        padding: 10px 2vw 6px 2vw;
+        max-width: 100vw;
+      }
+      .form-title {
+        font-size: 17px;
+      }
+      .form-label {
+        font-size: 14px;
+      }
+      .form-input,
+      .form-select {
+        font-size: 13px;
+        padding: 4px 7px;
+        height: 28px;
+      }
+      .form-checkbox-group {
+        font-size: 13px;
+      }
+      .form-checkbox {
+        width: 15px;
+        height: 15px;
+      }
+    }
+    /* --- COMPLEMENTO (segunda parte) --- */
+    label {
+      display: block;
+      font-size: 13px;
+      color: #444;
+      margin-bottom: 1px;
+      margin-top: 7px;
+      font-family: Arial, sans-serif;
+      font-weight: normal;
+    }
+    .required-star {
+      color: #222;
+      font-size: 13px;
+      vertical-align: middle;
+    }
+    input[type="text"], select {
+      width: 100%;
+      font-size: 13px;
+      padding: 4px 10px;
+      border: 1px solid #ccc;
+      border-radius: 18px;
+      margin-bottom: 6px;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      background: #fff;
+      outline: none;
+      height: 28px;
+    }
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      background: #fff url('data:image/svg+xml;utf8,<svg fill="gray" height="14" viewBox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center/14px 14px;
+      padding-right: 28px;
+    }
+    .info-text {
+      font-size: 10px;
+      color: #444;
+      margin-bottom: 7px;
+      margin-top: -3px;
+      margin-left: 2px;
+    }
+    .section-title {
+      color: #2176c7;
+      font-size: 15px;
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      font-family: Arial, sans-serif;
+    }
+    .subsection-title {
+      color: #2176c7;
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 2px;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+    }
+    .help-icon {
+      background: #ffc966;
+      color: #2176c7;
+      border-radius: 4px;
+      font-size: 12px;
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 5px;
+      margin-right: 2px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+    }
+    .sub-info {
+      font-size: 11px;
+      color: #444;
+      margin-bottom: 7px;
+      margin-top: 0;
+      margin-left: 2px;
+    }
+    .add-section label {
+      font-size: 13px;
+      margin-top: 7px;
+      margin-bottom: 1px;
+    }
+    .add-section input[type="text"], .add-section select {
+      font-size: 13px;
+      margin-bottom: 6px;
+      border-radius: 18px;
+      padding: 4px 10px;
+      height: 28px;
+    }
+    .add-btn {
+      background: #bbb;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      padding: 4px 16px;
+      margin-top: 2px;
+      cursor: not-allowed;
+      font-family: Arial, sans-serif;
+      margin-bottom: 7px;
+      transition: background 0.2s;
+    }
+    .next-btn {
+      background: #2176c7;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      padding: 5px 22px;
+      margin-top: 10px;
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+      text-transform: uppercase;
+      float: right;
+      margin-right: 2px;
+      box-shadow: none;
+      min-width: 0;
+      min-height: 0;
+      height: 32px;
+      line-height: 1;
+      letter-spacing: 0.5px;
+    }
+    @media (max-width: 480px) {
+      .container {
+        max-width: 100vw;
+        padding: 4px 2px 10px 2px;
+      }
+      .next-btn {
+        float: right;
+        margin-right: 2px;
+      }
+    }
+    /* Ajuste para não colidir estilos */
+    .container input[type="text"], .container select {
+      font-family: Arial, sans-serif;
+    }
+    .container input[type="checkbox"] {
+      accent-color: #2176bc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Primeira parte: Dados Pessoais -->
+    <div class="form-container">
+      <div class="form-title">Dados Pessoais</div>
+      <div class="form-group">
+        <label class="form-label required" for="nome">Nome completo</label>
+        <input class="form-input" type="text" id="nome" name="nome">
+      </div>
+      <div class="form-group">
+        <label class="form-label required" for="sexo">Sexo</label>
+        <select class="form-select" id="sexo" name="sexo">
+          <option value="" selected disabled></option>
+          <option value="masculino">Masculino</option>
+          <option value="feminino">Feminino</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="filiacao1">Filiação 1:</label>
+        <input class="form-input" type="text" id="filiacao1" name="filiacao1">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="sexo_filiacao1">Sexo:</label>
+        <select class="form-select" id="sexo_filiacao1" name="sexo_filiacao1">
+          <option value="" selected disabled></option>
+          <option value="masculino">Masculino</option>
+          <option value="feminino">Feminino</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="filiacao2">Filiação 2:</label>
+        <input class="form-input" type="text" id="filiacao2" name="filiacao2">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="sexo_filiacao2">Sexo:</label>
+        <select class="form-select" id="sexo_filiacao2" name="sexo_filiacao2">
+          <option value="" selected disabled></option>
+          <option value="masculino">Masculino</option>
+          <option value="feminino">Feminino</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label required" for="data_nascimento">Data de nascimento</label>
+        <input class="form-input" type="text" id="data_nascimento" name="data_nascimento" maxlength="10" placeholder="__/__/____">
+      </div>
+      <div class="form-checkbox-group">
+        <input class="form-checkbox" type="checkbox" id="emancipado" name="emancipado">
+        <label for="emancipado">Emancipado</label>
+      </div>
+      <div class="form-checkbox-group">
+        <input class="form-checkbox" type="checkbox" id="adocao" name="adocao">
+        <label for="adocao">Adoção Internacional</label>
+      </div>
+    </div>
+    <!-- Segunda parte: Complemento -->
+    <form>
+      <label for="raca">Raça ou cor<span class="required-star">*</span>:</label>
+      <input type="text" id="raca" name="raca">
+
+      <label for="estado-civil">Estado civil:</label>
+      <input type="text" id="estado-civil" name="estado-civil">
+
+      <label for="nacionalidade">Nacionalidade<span class="required-star">*</span>:</label>
+      <select id="nacionalidade" name="nacionalidade">
+        <option>BRASIL</option>
+      </select>
+      <div class="info-text">(para brasileiros com múltipla nacionalidade, selecionar Brasil)</div>
+
+      <div class="section-title">Local de nascimento</div>
+
+      <label for="pais">País<span class="required-star">*</span>:</label>
+      <select id="pais" name="pais">
+        <option>BRASIL</option>
+      </select>
+
+      <label for="uf">UF<span class="required-star">*</span>:</label>
+      <select id="uf" name="uf">
+        <option></option>
+      </select>
+
+      <label for="cidade">Cidade<span class="required-star">*</span>:</label>
+      <input type="text" id="cidade" name="cidade">
+
+      <div class="subsection-title">
+        Nomes anteriores
+        <span class="help-icon">?</span>
+      </div>
+      <div class="sub-info">
+        Para cada nome anterior, digite o nome, escolha o motivo da mudança e clique em Adicionar.
+      </div>
+
+      <div class="add-section">
+        <label for="nome-anterior">Nome anterior:</label>
+        <input type="text" id="nome-anterior" name="nome-anterior">
+
+        <label for="motivo-mudanca">Motivo da mudança:</label>
+        <select id="motivo-mudanca" name="motivo-mudanca">
+          <option></option>
+        </select>
+        <br>
+        <button type="button" class="add-btn" disabled>Adicionar</button>
+      </div>
+
+      <button type="submit" class="next-btn">PRÓXIMO</button>
+    </form>
+  </div>
+</body>
+</html>
