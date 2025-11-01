@@ -674,7 +674,7 @@ body {
     font-size: 13px;
     padding: 5px 22px;
     margin-top: 10px;
-    margin-bottom: 50px;
+    margin-bottom: 100px;
     font-family: Arial, sans-serif;
     cursor: pointer;
     text-transform: uppercase;
@@ -844,7 +844,7 @@ body {
     justify-content: flex-end;
     gap: 8px;
     margin-top: 10px;
-    margin-bottom: 50px;
+    margin-bottom: 100px;
 }
 
 .doc-btn-anterior, .doc-btn-proximo {
