@@ -22,4 +22,125 @@
         (*) Preenchimento Obrigatório
     </div>
 </div>
+
+<div class="form-container-wrapper">
+    <div class="form-container">
+        <div class="form-title">Dados Pessoais</div>
+        <form method="POST" action="#">
+            <div class="form-group">
+                <label class="form-label required" for="nome">Nome completo</label>
+                <input class="form-input" type="text" id="nome" name="nome">
+            </div>
+            <div class="form-group">
+                <label class="form-label required" for="sexo">Sexo</label>
+                <select class="form-select" id="sexo" name="sexo">
+                    <option value="" selected disabled></option>
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                    <option value="outro">Outro</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="filiacao1">Filiação 1:</label>
+                <input class="form-input" type="text" id="filiacao1" name="filiacao1">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="sexo_filiacao1">Sexo:</label>
+                <select class="form-select" id="sexo_filiacao1" name="sexo_filiacao1">
+                    <option value="" selected disabled></option>
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                    <option value="outro">Outro</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="filiacao2">Filiação 2:</label>
+                <input class="form-input" type="text" id="filiacao2" name="filiacao2">
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="sexo_filiacao2">Sexo:</label>
+                <select class="form-select" id="sexo_filiacao2" name="sexo_filiacao2">
+                    <option value="" selected disabled></option>
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                    <option value="outro">Outro</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label required" for="data_nascimento">Data de nascimento</label>
+                <input class="form-input" type="text" id="data_nascimento" name="data_nascimento" maxlength="10" placeholder="__/__/____">
+            </div>
+            <div class="form-checkbox-group">
+                <input class="form-checkbox" type="checkbox" id="emancipado" name="emancipado">
+                <label for="emancipado">Emancipado</label>
+            </div>
+            <div class="form-checkbox-group">
+                <input class="form-checkbox" type="checkbox" id="adocao" name="adocao">
+                <label for="adocao">Adoção Internacional</label>
+            </div>
+
+            <div class="form-separator"></div>
+
+            <div class="form-group">
+                <label class="form-label-complement required-star" for="raca">Raça ou cor<span class="required-star">*</span>:</label>
+                <input class="form-input-complement" type="text" id="raca" name="raca">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-complement" for="estado_civil">Estado civil:</label>
+                <input class="form-input-complement" type="text" id="estado_civil" name="estado_civil">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-complement" for="nacionalidade">Nacionalidade<span class="required-star">*</span>:</label>
+                <select class="form-select-complement" id="nacionalidade" name="nacionalidade">
+                    <option>BRASIL</option>
+                </select>
+                <div class="info-text">(para brasileiros com múltipla nacionalidade, selecionar Brasil)</div>
+            </div>
+
+            <div class="section-title">Local de nascimento</div>
+
+            <div class="form-group">
+                <label class="form-label-complement" for="pais">País<span class="required-star">*</span>:</label>
+                <select class="form-select-complement" id="pais" name="pais">
+                    <option>BRASIL</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-complement" for="uf">UF<span class="required-star">*</span>:</label>
+                <select class="form-select-complement" id="uf" name="uf">
+                    <option></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-complement" for="cidade">Cidade<span class="required-star">*</span>:</label>
+                <input class="form-input-complement" type="text" id="cidade" name="cidade">
+            </div>
+
+            <div class="subsection-title">
+                Nomes anteriores
+                <span class="help-icon">?</span>
+            </div>
+            <div class="sub-info">
+                Para cada nome anterior, digite o nome, escolha o motivo da mudança e clique em Adicionar.
+            </div>
+
+            <div class="add-section">
+                <label class="form-label-complement" for="nome_anterior">Nome anterior:</label>
+                <input class="form-input-complement" type="text" id="nome_anterior" name="nome_anterior">
+
+                <label class="form-label-complement" for="motivo_mudanca">Motivo da mudança:</label>
+                <select class="form-select-complement" id="motivo_mudanca" name="motivo_mudanca">
+                    <option></option>
+                </select>
+                <button type="button" class="add-btn" disabled>Adicionar</button>
+            </div>
+
+            <button type="submit" class="next-btn">PRÓXIMO</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
