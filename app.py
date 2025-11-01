@@ -14,6 +14,10 @@ def gerar_protocolo():
 def index():
     return render_template('index.html')
 
+@app.route('/nova-solicitacao')
+def nova_solicitacao():
+    return render_template('nova_solicitacao.html')
+
 @app.route('/agendar', methods=['POST'])
 def agendar():
     quantidade = request.form.get('quantidade', '1')
