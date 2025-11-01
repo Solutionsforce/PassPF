@@ -719,9 +719,17 @@ body {
     }
     .next-btn {
         margin-bottom: 0;
+        font-size: 13px;
+        padding: 5px 22px;
+        height: 32px;
     }
     .doc-button-row {
         margin-bottom: 0;
+    }
+    .doc-btn-anterior, .doc-btn-proximo {
+        font-size: 13px;
+        padding: 5px 22px;
+        height: 32px;
     }
 }
 
@@ -855,26 +863,25 @@ body {
 }
 
 .doc-btn-anterior, .doc-btn-proximo {
-    font-size: 13px;
-    font-family: Arial, sans-serif;
-    font-weight: normal;
     background: #2176c7;
     color: #fff;
     border: none;
     border-radius: 4px;
+    font-size: 13px;
     padding: 5px 22px;
+    font-family: Arial, sans-serif;
     cursor: pointer;
-    transition: background 0.2s;
     text-transform: uppercase;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
     box-shadow: none;
     min-width: 0;
     min-height: 0;
     height: 32px;
     line-height: 1;
     letter-spacing: 0.5px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: background 0.2s;
 }
 
 .doc-btn-anterior:hover, .doc-btn-proximo:hover {
