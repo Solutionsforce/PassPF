@@ -29,13 +29,7 @@
 
             <div class="form-group">
                 <label class="form-label-doc" for="profissao">Profissão*:</label>
-                <select class="form-select-doc" id="profissao" name="profissao">
-                    <option value="" {% if not dados.get('profissao') %}selected{% endif %} disabled></option>
-                    <option value="medico" {% if dados.get('profissao') == 'medico' %}selected{% endif %}>Médico</option>
-                    <option value="engenheiro" {% if dados.get('profissao') == 'engenheiro' %}selected{% endif %}>Engenheiro</option>
-                    <option value="professor" {% if dados.get('profissao') == 'professor' %}selected{% endif %}>Professor</option>
-                    <option value="outro" {% if dados.get('profissao') == 'outro' %}selected{% endif %}>Outro</option>
-                </select>
+                <input class="form-input-doc" type="text" id="profissao" name="profissao" value="{{ dados.get('profissao', '') }}">
             </div>
 
             <div class="form-group">
@@ -116,13 +110,8 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label-doc" for="ddd">DDD:</label>
-                <input class="form-input-doc" type="text" id="ddd" name="ddd" maxlength="2" value="{{ dados.get('ddd', '') }}">
-            </div>
-
-            <div class="form-group">
                 <label class="form-label-doc" for="telefone">Telefone:</label>
-                <input class="form-input-doc" type="text" id="telefone" name="telefone" value="{{ dados.get('telefone', '') }}">
+                <input class="form-input-doc" type="text" id="telefone" name="telefone" placeholder="(00) 0 0000-0000" value="{{ dados.get('telefone', '') }}">
             </div>
 
             <div class="doc-button-row">

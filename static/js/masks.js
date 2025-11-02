@@ -127,7 +127,6 @@ function consultarCEP(cep) {
                     const bairroInput = document.getElementById('bairro');
                     const cidadeInput = document.getElementById('cidade_endereco');
                     const ufSelect = document.getElementById('uf_endereco');
-                    const dddInput = document.getElementById('ddd');
                     
                     if (logradouroInput && data.logradouro) {
                         logradouroInput.value = data.logradouro;
@@ -143,10 +142,6 @@ function consultarCEP(cep) {
                     
                     if (ufSelect && data.uf) {
                         ufSelect.value = data.uf;
-                    }
-                    
-                    if (dddInput && data.ddd) {
-                        dddInput.value = data.ddd;
                     }
                 }
             })
@@ -179,14 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
     telefoneInputs.forEach(function(input) {
         input.addEventListener('input', function() {
             maskTelefone(this);
-        });
-    });
-    
-    // DDD
-    const dddInputs = document.querySelectorAll('input[name="ddd"]');
-    dddInputs.forEach(function(input) {
-        input.addEventListener('input', function() {
-            maskDDD(this);
         });
     });
     
