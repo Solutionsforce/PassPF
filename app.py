@@ -26,36 +26,106 @@ def obter_data_hora_brasilia():
     brasilia_tz = pytz.timezone('America/Sao_Paulo')
     return datetime.now(brasilia_tz).strftime('%d/%m/%Y %H:%M')
 
-def carregar_unidades():
-    with open('unidades_atendimento.json', 'r', encoding='utf-8') as f:
-        return json.load(f)
+def obter_orgao_por_estado(uf):
+    """Retorna o órgão competente de cada estado"""
+    orgaos_estaduais = {
+        'AC': 'OCA - Organização em Centros de Atendimento',
+        'AL': 'Centrais JÁ!',
+        'AM': 'PAC - Pronto Atendimento ao Cidadão',
+        'AP': 'Super Fácil',
+        'BA': 'SAC - Serviço de Atendimento ao Cidadão',
+        'CE': 'Vapt Vupt',
+        'DF': 'Na Hora',
+        'ES': 'Faça Fácil',
+        'GO': 'Vapt Vupt',
+        'MA': 'VIVA/PROCON',
+        'MG': 'UAI - Unidades de Atendimento Integrado',
+        'MS': 'Portal de Serviços do Governo',
+        'MT': 'Ganha Tempo',
+        'PA': 'Estação Cidadania',
+        'PB': 'Casas da Cidadania',
+        'PE': 'Expresso Cidadão',
+        'PI': 'Espaços da Cidadania',
+        'PR': 'Poupatempo Paraná',
+        'RJ': 'Poupa Tempo RJ',
+        'RN': 'Central do Cidadão',
+        'RO': 'Tudo Aqui',
+        'RR': 'Casa do Cidadão',
+        'RS': 'Tudo Fácil',
+        'SC': 'Portal de Serviços SC',
+        'SE': 'CEAC - Centros de Atendimento ao Cidadão',
+        'SP': 'Poupatempo',
+        'TO': 'É Pra Já'
+    }
+    return orgaos_estaduais.get(uf.upper(), 'Centro de Atendimento ao Cidadão')
+
+def obter_uf_por_cep(cep):
+    """Detecta o estado baseado na faixa de CEP"""
+    cep_num = int(''.join(filter(str.isdigit, cep))[:5])
+    
+    faixas_cep = {
+        (1000, 5999): 'SP', (6000, 9999): 'SP',
+        (10000, 19999): 'SP', (20000, 28999): 'RJ',
+        (29000, 29999): 'ES', (30000, 39999): 'MG',
+        (40000, 48999): 'BA', (49000, 49999): 'SE',
+        (50000, 56999): 'PE', (57000, 57999): 'AL',
+        (58000, 58999): 'PB', (59000, 59999): 'RN',
+        (60000, 63999): 'CE', (64000, 64999): 'PI',
+        (65000, 65999): 'MA', (66000, 68899): 'PA',
+        (68900, 68999): 'AP', (69000, 69299): 'AM',
+        (69300, 69399): 'RR', (69400, 69899): 'AM',
+        (69900, 69999): 'AC', (70000, 72799): 'DF',
+        (72800, 76799): 'GO', (77000, 77999): 'TO',
+        (78000, 78899): 'MT', (79000, 79999): 'MS',
+        (80000, 87999): 'PR', (88000, 89999): 'SC',
+        (90000, 99999): 'RS'
+    }
+    
+    for (inicio, fim), estado in faixas_cep.items():
+        if inicio <= cep_num <= fim:
+            return estado
+    return 'SP'
 
 def encontrar_unidades_proximas(cep_usuario, limite=3):
+    """Gera 3 unidades fake próximas ao CEP do usuário usando o órgão estadual"""
     if not cep_usuario:
         return []
     
     cep_usuario_numerico = ''.join(filter(str.isdigit, cep_usuario))
-    if len(cep_usuario_numerico) < 5:
+    if len(cep_usuario_numerico) < 8:
         return []
     
-    prefixo_usuario = int(cep_usuario_numerico[:5])
+    # Detectar o estado do usuário
+    uf = obter_uf_por_cep(cep_usuario)
+    orgao = obter_orgao_por_estado(uf)
     
-    unidades = carregar_unidades()
+    # Gerar 3 unidades fake próximas
+    unidades_fake = []
+    base_cep = int(cep_usuario_numerico[:5])
     
-    unidades_com_distancia = []
-    for unidade in unidades:
-        cep_unidade = ''.join(filter(str.isdigit, unidade['cep']))
-        if len(cep_unidade) >= 5:
-            prefixo_unidade = int(cep_unidade[:5])
-            distancia = abs(prefixo_usuario - prefixo_unidade)
-            unidades_com_distancia.append({
-                **unidade,
-                'distancia': distancia
-            })
+    ruas = ['Av. Principal', 'Rua Central', 'Av. do Estado']
+    bairros = ['Centro', 'Vila Nova', 'Jardim América']
     
-    unidades_com_distancia.sort(key=lambda x: x['distancia'])
+    for i in range(3):
+        # Variar o CEP para parecer próximo
+        cep_variado = base_cep + (i * 10)
+        cep_formatado = f"{cep_variado:05d}-{random.randint(100, 999):03d}"
+        
+        unidade = {
+            'id': i + 1,
+            'nome': f'{orgao} - Unidade {i + 1}',
+            'endereco': f'{ruas[i]}, {random.randint(100, 999)}',
+            'bairro': bairros[i],
+            'cidade': f'Sua Região',
+            'uf': uf,
+            'cep': cep_formatado,
+            'telefone': f'({random.randint(11, 99)}) {random.randint(3000, 3999)}-{random.randint(1000, 9999)}',
+            'orgao': orgao,
+            'distancia': i * 100
+        }
+        unidades_fake.append(unidade)
     
-    return unidades_com_distancia[:limite]
+    return unidades_fake
 
 def gerar_protocolo():
     ano = datetime.now().year
