@@ -199,7 +199,7 @@ def agendar():
 @app.route('/download-protocolo')
 def download_protocolo():
     protocolo = session.get('protocolo', 'N/A')
-    data_emissao = session.get('data_emissao', 'N/A')
+    data_emissao = datetime.now().strftime('%d/%m/%Y %H:%M')
     dados_pessoais = session.get('dados_pessoais', {})
     dados_complementares = session.get('dados_complementares', {})
     
