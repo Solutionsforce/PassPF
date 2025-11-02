@@ -131,7 +131,7 @@ def protocolo():
     unidades_proximas = encontrar_unidades_proximas(cep_usuario, 3)
     
     datas_disponiveis = []
-    data_inicial = datetime.now() + timedelta(days=1)
+    data_inicial = datetime.now() + timedelta(days=35)
     for i in range(15):
         data = data_inicial + timedelta(days=i)
         if data.weekday() < 5:
