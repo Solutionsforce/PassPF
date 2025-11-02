@@ -17,7 +17,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SESSION_SECRET', 'sua_chave_secreta_aqui_123456')
 
 def carregar_unidades():
-    with open('unidades_pf.json', 'r', encoding='utf-8') as f:
+    with open('unidades_atendimento.json', 'r', encoding='utf-8') as f:
         return json.load(f)
 
 def encontrar_unidades_proximas(cep_usuario, limite=3):

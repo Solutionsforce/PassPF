@@ -122,6 +122,7 @@
             <div class="unidade-card">
                 <input type="radio" name="unidade_id" id="unidade_{{ unidade.id }}" value="{{ unidade.id }}" required>
                 <label for="unidade_{{ unidade.id }}" class="unidade-label">
+                    <div class="unidade-orgao">{{ unidade.orgao }}</div>
                     <div class="unidade-nome">{{ unidade.nome }}</div>
                     <div class="unidade-endereco">{{ unidade.endereco }}</div>
                     <div class="unidade-cidade">{{ unidade.cidade }}/{{ unidade.uf }} - CEP: {{ unidade.cep }}</div>
