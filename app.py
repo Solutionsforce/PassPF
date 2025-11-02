@@ -324,14 +324,16 @@ def download_protocolo():
 @app.route('/checkout')
 def checkout():
     dados_pessoais = session.get('dados_pessoais', {})
+    dados_documentos = session.get('documentos', {})
     dados_complementares = session.get('dados_complementares', {})
     
     print(f'DEBUG - Dados pessoais: {dados_pessoais}')
+    print(f'DEBUG - Dados documentos: {dados_documentos}')
     print(f'DEBUG - Dados complementares: {dados_complementares}')
     
     nome = dados_pessoais.get('nome', '')
-    cpf = dados_pessoais.get('cpf', '').replace('.', '').replace('-', '')
-    email = dados_pessoais.get('email', '')
+    cpf = dados_documentos.get('cpf', '').replace('.', '').replace('-', '')
+    email = dados_complementares.get('email', '')
     telefone_raw = dados_complementares.get('telefone', '')
     telefone = telefone_raw.replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
     
