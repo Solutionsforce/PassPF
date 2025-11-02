@@ -1,0 +1,70 @@
+4M_PAYMENTS_API_COMPLETE_DOCS.md
+
+📄 CONTEÚDO DA DOCUMENTAÇÃO:
+✅ 1. Informações Gerais
+URL Base, versão, protocolo
+Autenticação e credenciais funcionais
+✅ 2. Endpoints Completos
+POST /api/v1/payments - Criar pagamento PIX
+GET /api/v1/payments/{id} - Verificar status
+Headers, parâmetros, exemplos de request/response
+✅ 3. Estrutura de Dados
+Campos obrigatórios e opcionais
+Tipos de dados corretos
+Regras importantes (amount como string!)
+✅ 4. Status de Pagamento
+pending, paid, expired, cancelled
+Ações recomendadas para cada status
+✅ 5. Taxas e Valores
+Cálculo de taxas (~6,5%)
+Campos financeiros (amount, net_amount, fee_amount)
+✅ 6. Exemplos Práticos
+cURL completo
+Python com requests
+Node.js com fetch
+TypeScript (na outra documentação)
+✅ 7. Erros Comuns e Soluções
+5 erros mais comuns com soluções
+Como debugar problemas
+✅ 8. QR Code
+3 opções para gerar QR Code
+API externa, bibliotecas Node.js e Python
+✅ 9. Segurança
+Boas práticas
+Proteção do API Token
+Validação de dados
+✅ 10. Checklist de Integração
+Todos os passos para integrar corretamente
+🔑 CREDENCIAIS (TESTADAS E FUNCIONANDO):
+URL Base: https://app.4mpagamentos.com/api/v1
+API Token: 3mpag_h0uymyduo_mgtqu1j9
+Autenticação: Bearer Token
+Valor: R$ 24,90
+Status: ✅ ATIVO
+
+📋 EXEMPLO RÁPIDO - cURL:
+curl -X POST https://app.4mpagamentos.com/api/v1/payments \
+  -H "Authorization: Bearer 3mpag_h0uymyduo_mgtqu1j9" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": "24.9",
+    "customer_name": "JOÃO DA SILVA",
+    "customer_email": "joao@email.com",
+    "customer_cpf": "12345678901",
+    "customer_phone": "11999887766",
+    "description": "Curso Digital"
+  }'
+
+⚠️ PONTOS CRÍTICOS:
+amount DEVE SER STRING: "24.9" (não número)
+CPF sem formatação: Apenas 11 dígitos
+Bearer Token: Obrigatório no header
+Resposta aninhada: Dados vêm em data.data
+Timeout: 30 segundos recomendado
+Verificação: A cada 5 segundos
+📦 ARQUIVOS DISPONÍVEIS:
+Agora você tem 3 documentações completas:
+
+4M_PAYMENTS_API_COMPLETE_DOCS.md ← NOVA! Documentação da API
+4M_PAYMENTS_TYPESCRIPT_DOCS.md - Código TypeScript/JavaScript
+FOURM_PAYMENTS_DOCS.md - Documentação Python (original)

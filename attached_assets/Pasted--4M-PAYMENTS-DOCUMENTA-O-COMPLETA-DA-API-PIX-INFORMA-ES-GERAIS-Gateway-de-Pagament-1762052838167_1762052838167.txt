@@ -1,0 +1,615 @@
+# 📚 4M PAYMENTS - DOCUMENTAÇÃO COMPLETA DA API PIX
+
+## 🌐 INFORMAÇÕES GERAIS
+
+**Gateway de Pagamento:** 4M Payments  
+**URL Base:** `https://app.4mpagamentos.com/api/v1`  
+**Versão da API:** v1  
+**Protocolo:** HTTPS  
+**Formato:** JSON  
+**Autenticação:** Bearer Token  
+
+---
+
+## 🔑 CREDENCIAIS E AUTENTICAÇÃO
+
+### **API Token (Funcionando e Testado)**
+```
+Token: 3mpag_h0uymyduo_mgtqu1j9
+Tipo: Bearer Token
+Status: ✅ ATIVO
+```
+
+### **Header de Autenticação**
+```http
+Authorization: Bearer 3mpag_h0uymyduo_mgtqu1j9
+Content-Type: application/json
+```
+
+---
+
+## 📍 ENDPOINTS DISPONÍVEIS
+
+### **1. CRIAR PAGAMENTO PIX**
+
+#### **Endpoint:**
+```
+POST /api/v1/payments
+```
+
+#### **URL Completa:**
+```
+https://app.4mpagamentos.com/api/v1/payments
+```
+
+#### **Headers:**
+```http
+Authorization: Bearer 3mpag_h0uymyduo_mgtqu1j9
+Content-Type: application/json
+User-Agent: 4M-Integration/1.0
+```
+
+#### **Request Body:**
+```json
+{
+  "amount": "24.9",
+  "customer_name": "JOÃO DA SILVA",
+  "customer_email": "joao@email.com",
+  "customer_cpf": "12345678901",
+  "customer_phone": "11999887766",
+  "description": "Curso Digital",
+  "product_id": 123
+}
+```
+
+#### **Campos Obrigatórios:**
+| Campo | Tipo | Descrição | Obrigatório |
+|-------|------|-----------|-------------|
+| `amount` | string | Valor em reais (ex: "24.9") | ✅ Sim |
+| `customer_name` | string | Nome completo do cliente | ✅ Sim |
+| `customer_email` | string | Email do cliente | ✅ Sim |
+| `customer_cpf` | string | CPF sem formatação (11 dígitos) | ✅ Sim |
+| `customer_phone` | string | Telefone com DDD (ex: "11999887766") | ✅ Sim |
+| `description` | string | Descrição do produto/serviço | ✅ Sim |
+| `product_id` | integer | ID do produto (opcional) | ❌ Não |
+
+#### **⚠️ REGRAS IMPORTANTES:**
+
+1. **`amount` DEVE SER STRING**: Use `"24.9"` e não `24.9`
+2. **CPF sem formatação**: Apenas números, sem pontos ou hífen
+3. **Telefone com DDD**: 10 ou 11 dígitos (ex: "11999887766")
+4. **Email válido**: Formato padrão de email
+
+#### **Response - Sucesso (HTTP 201):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 38614,
+    "transaction_id": "4M3520135486",
+    "pix_code": "00020126860014br.gov.bcb.pix2564pix.ecomovi.com.br/qr/v3/at/b66d4250-31b8-43f8-8036-2861d6521b515204000053039865802BR5925BR_TRANSACAO_VERIFICADA_L6009ARAPONGAS62070503***63040D6E",
+    "pix_qr_code": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPQAAAD0...",
+    "customer_name": "JOÃO DA SILVA",
+    "customer_email": "joao@email.com",
+    "customer_cpf": "12345678901",
+    "customer_phone": "11999887766",
+    "amount": "24.9",
+    "net_amount": "23.2775",
+    "fee_amount": "1.6225",
+    "status": "pending",
+    "expires_at": "2025-10-16T20:52:50.246Z",
+    "created_at": "2025-10-16T19:52:55.820Z"
+  },
+  "timestamp": "2025-10-16T19:52:55.820Z",
+  "request_id": "req_1760644364542_0uhyelu2p"
+}
+```
+
+#### **Response - Erro (HTTP 400):**
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Dados de entrada inválidos",
+    "details": "amount: Expected string, received number"
+  },
+  "timestamp": "2025-10-16T19:49:43.104Z",
+  "request_id": "req_1760644182999_3lsjitbqr"
+}
+```
+
+---
+
+### **2. VERIFICAR STATUS DO PAGAMENTO**
+
+#### **Endpoint:**
+```
+GET /api/v1/payments/{transaction_id}
+```
+
+#### **URL Completa:**
+```
+https://app.4mpagamentos.com/api/v1/payments/4M3520135486
+```
+
+#### **Headers:**
+```http
+Authorization: Bearer 3mpag_h0uymyduo_mgtqu1j9
+Content-Type: application/json
+```
+
+#### **Parâmetros:**
+| Parâmetro | Tipo | Descrição |
+|-----------|------|-----------|
+| `transaction_id` | string | ID da transação retornado na criação |
+
+#### **Response - Sucesso (HTTP 200):**
+```json
+{
+  "success": true,
+  "data": {
+    "transaction_id": "4M3520135486",
+    "status": "paid",
+    "amount": "24.9",
+    "customer_name": "JOÃO DA SILVA",
+    "customer_cpf": "12345678901",
+    "paid_at": "2025-10-16T19:55:30.123Z",
+    "created_at": "2025-10-16T19:52:55.820Z"
+  },
+  "timestamp": "2025-10-16T19:56:00.000Z",
+  "request_id": "req_1760644560000_xyz123"
+}
+```
+
+#### **Response - Transação Não Encontrada (HTTP 404):**
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "Transação não encontrada"
+  },
+  "timestamp": "2025-10-16T19:56:00.000Z",
+  "request_id": "req_1760644560000_abc456"
+}
+```
+
+---
+
+## 📊 STATUS DE PAGAMENTO
+
+| Status | Descrição | Ação Recomendada |
+|--------|-----------|------------------|
+| `pending` | Aguardando pagamento | Continuar verificando |
+| `paid` | Pagamento confirmado | ✅ Liberar acesso ao cliente |
+| `expired` | PIX expirado (após ~15 min) | ❌ Solicitar novo pagamento |
+| `cancelled` | Pagamento cancelado | ❌ Solicitar novo pagamento |
+
+---
+
+## 🔄 ESTRUTURA DE RESPOSTA
+
+### **Resposta Aninhada:**
+A API da 4M Payments retorna os dados dentro de `data.data`:
+
+```javascript
+// Estrutura da resposta
+{
+  "success": true,
+  "data": {
+    // ← DADOS REAIS ESTÃO AQUI
+    "transaction_id": "4M3520135486",
+    "pix_code": "00020126860014br.gov.bcb.pix...",
+    // ... outros campos
+  }
+}
+```
+
+**Como acessar os dados:**
+```javascript
+const response = await fetch('/api/v1/payments', {...});
+const data = await response.json();
+
+// Acessar os dados reais
+const pixCode = data.data.pix_code;
+const transactionId = data.data.transaction_id;
+```
+
+---
+
+## 💰 TAXAS E VALORES
+
+### **Cálculo de Taxas:**
+```
+Valor solicitado: R$ 24,90
+Taxa da 4M Payments: ~6,5%
+Valor líquido recebido: R$ 23,28
+Taxa cobrada: R$ 1,62
+```
+
+### **Campos Financeiros:**
+| Campo | Descrição | Exemplo |
+|-------|-----------|---------|
+| `amount` | Valor total cobrado do cliente | "24.9" |
+| `net_amount` | Valor líquido que você recebe | "23.2775" |
+| `fee_amount` | Taxa da 4M Payments | "1.6225" |
+
+---
+
+## 🕐 TIMEOUTS E EXPIRAÇÃO
+
+### **Timeout de Requisição:**
+```
+Recomendado: 30 segundos
+Máximo: 60 segundos
+```
+
+### **Expiração do PIX:**
+```
+Tempo padrão: ~15 minutos
+Campo: expires_at (ISO 8601)
+Exemplo: "2025-10-16T20:52:50.246Z"
+```
+
+### **Verificação de Status:**
+```
+Intervalo recomendado: 5 segundos
+Timeout total: 10 minutos (600 segundos)
+```
+
+---
+
+## 📝 EXEMPLO COMPLETO - CURL
+
+### **Criar Pagamento PIX:**
+```bash
+curl -X POST https://app.4mpagamentos.com/api/v1/payments \
+  -H "Authorization: Bearer 3mpag_h0uymyduo_mgtqu1j9" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": "24.9",
+    "customer_name": "JOÃO DA SILVA",
+    "customer_email": "joao@email.com",
+    "customer_cpf": "12345678901",
+    "customer_phone": "11999887766",
+    "description": "Curso Digital"
+  }'
+```
+
+### **Verificar Status:**
+```bash
+curl -X GET https://app.4mpagamentos.com/api/v1/payments/4M3520135486 \
+  -H "Authorization: Bearer 3mpag_h0uymyduo_mgtqu1j9" \
+  -H "Content-Type: application/json"
+```
+
+---
+
+## 🐍 EXEMPLO COMPLETO - PYTHON
+
+```python
+import requests
+import json
+
+# Configuração
+API_TOKEN = "3mpag_h0uymyduo_mgtqu1j9"
+BASE_URL = "https://app.4mpagamentos.com/api/v1"
+
+headers = {
+    "Authorization": f"Bearer {API_TOKEN}",
+    "Content-Type": "application/json"
+}
+
+# Criar Pagamento PIX
+def criar_pix(nome, cpf, email, telefone, valor=24.9):
+    payload = {
+        "amount": str(valor),  # ⚠️ IMPORTANTE: String!
+        "customer_name": nome,
+        "customer_email": email,
+        "customer_cpf": cpf.replace(".", "").replace("-", ""),
+        "customer_phone": telefone,
+        "description": "Curso Digital"
+    }
+    
+    response = requests.post(
+        f"{BASE_URL}/payments",
+        json=payload,
+        headers=headers,
+        timeout=30
+    )
+    
+    if response.status_code == 201:
+        data = response.json()
+        return {
+            "success": True,
+            "transaction_id": data["data"]["transaction_id"],
+            "pix_code": data["data"]["pix_code"],
+            "status": data["data"]["status"]
+        }
+    else:
+        return {
+            "success": False,
+            "error": response.text
+        }
+
+# Verificar Status
+def verificar_status(transaction_id):
+    response = requests.get(
+        f"{BASE_URL}/payments/{transaction_id}",
+        headers=headers,
+        timeout=30
+    )
+    
+    if response.status_code == 200:
+        data = response.json()
+        return {
+            "success": True,
+            "status": data["data"]["status"],
+            "paid": data["data"]["status"] == "paid"
+        }
+    else:
+        return {
+            "success": False,
+            "error": response.text
+        }
+
+# Exemplo de uso
+if __name__ == "__main__":
+    # Criar PIX
+    resultado = criar_pix(
+        nome="JOÃO DA SILVA",
+        cpf="123.456.789-01",
+        email="joao@email.com",
+        telefone="11999887766"
+    )
+    
+    if resultado["success"]:
+        print(f"✅ PIX criado: {resultado['transaction_id']}")
+        print(f"📋 Código PIX: {resultado['pix_code'][:50]}...")
+        
+        # Verificar status
+        import time
+        time.sleep(5)
+        
+        status = verificar_status(resultado["transaction_id"])
+        print(f"📊 Status: {status['status']}")
+    else:
+        print(f"❌ Erro: {resultado['error']}")
+```
+
+---
+
+## 🟢 EXEMPLO COMPLETO - NODE.JS
+
+```javascript
+const fetch = require('node-fetch');
+
+// Configuração
+const API_TOKEN = '3mpag_h0uymyduo_mgtqu1j9';
+const BASE_URL = 'https://app.4mpagamentos.com/api/v1';
+
+const headers = {
+  'Authorization': `Bearer ${API_TOKEN}`,
+  'Content-Type': 'application/json'
+};
+
+// Criar Pagamento PIX
+async function criarPix(nome, cpf, email, telefone, valor = 24.9) {
+  const payload = {
+    amount: valor.toString(), // ⚠️ IMPORTANTE: String!
+    customer_name: nome,
+    customer_email: email,
+    customer_cpf: cpf.replace(/[.-]/g, ''),
+    customer_phone: telefone,
+    description: 'Curso Digital'
+  };
+
+  const response = await fetch(`${BASE_URL}/payments`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(payload)
+  });
+
+  const data = await response.json();
+
+  if (response.status === 201) {
+    return {
+      success: true,
+      transaction_id: data.data.transaction_id,
+      pix_code: data.data.pix_code,
+      status: data.data.status
+    };
+  } else {
+    return {
+      success: false,
+      error: data.error
+    };
+  }
+}
+
+// Verificar Status
+async function verificarStatus(transactionId) {
+  const response = await fetch(`${BASE_URL}/payments/${transactionId}`, {
+    method: 'GET',
+    headers: headers
+  });
+
+  const data = await response.json();
+
+  if (response.status === 200) {
+    return {
+      success: true,
+      status: data.data.status,
+      paid: data.data.status === 'paid'
+    };
+  } else {
+    return {
+      success: false,
+      error: data.error
+    };
+  }
+}
+
+// Exemplo de uso
+(async () => {
+  // Criar PIX
+  const resultado = await criarPix(
+    'JOÃO DA SILVA',
+    '123.456.789-01',
+    'joao@email.com',
+    '11999887766'
+  );
+
+  if (resultado.success) {
+    console.log(`✅ PIX criado: ${resultado.transaction_id}`);
+    console.log(`📋 Código PIX: ${resultado.pix_code.substring(0, 50)}...`);
+
+    // Verificar status após 5 segundos
+    setTimeout(async () => {
+      const status = await verificarStatus(resultado.transaction_id);
+      console.log(`📊 Status: ${status.status}`);
+    }, 5000);
+  } else {
+    console.log(`❌ Erro: ${resultado.error}`);
+  }
+})();
+```
+
+---
+
+## ⚠️ ERROS COMUNS E SOLUÇÕES
+
+### **1. Erro: "Expected string, received number"**
+```
+❌ Problema: amount: 24.9
+✅ Solução: amount: "24.9"
+```
+
+### **2. Erro: "Invalid CPF format"**
+```
+❌ Problema: customer_cpf: "123.456.789-01"
+✅ Solução: customer_cpf: "12345678901"
+```
+
+### **3. Erro: "Unauthorized"**
+```
+❌ Problema: Authorization: 3mpag_h0uymyduo_mgtqu1j9
+✅ Solução: Authorization: Bearer 3mpag_h0uymyduo_mgtqu1j9
+```
+
+### **4. Erro: "Cannot read property 'pix_code' of undefined"**
+```
+❌ Problema: const pixCode = data.pix_code
+✅ Solução: const pixCode = data.data.pix_code
+```
+
+### **5. Timeout na Requisição**
+```
+❌ Problema: timeout muito curto (5s)
+✅ Solução: timeout recomendado 30s
+```
+
+---
+
+## 🔒 SEGURANÇA
+
+### **Boas Práticas:**
+
+1. **Nunca exponha o API Token no frontend**
+   - Use variáveis de ambiente
+   - Faça requisições sempre do backend
+
+2. **Validação de Dados:**
+   - Valide CPF antes de enviar
+   - Valide email e telefone
+   - Sanitize inputs do usuário
+
+3. **HTTPS Obrigatório:**
+   - Sempre use HTTPS na comunicação
+   - Nunca envie credenciais por HTTP
+
+4. **Rate Limiting:**
+   - Implemente controle de requisições
+   - Evite múltiplas requisições simultâneas
+
+---
+
+## 📱 QR CODE
+
+### **Gerando QR Code do PIX:**
+
+#### **Opção 1: API Externa (Recomendado)**
+```javascript
+const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pixCode)}`;
+```
+
+#### **Opção 2: Biblioteca (Node.js)**
+```javascript
+const QRCode = require('qrcode');
+const qrImage = await QRCode.toDataURL(pixCode);
+```
+
+#### **Opção 3: Biblioteca (Python)**
+```python
+import qrcode
+qr = qrcode.make(pix_code)
+qr.save('qrcode.png')
+```
+
+---
+
+## 🧪 AMBIENTE DE TESTES
+
+### **Dados de Teste:**
+```json
+{
+  "amount": "24.9",
+  "customer_name": "TESTE DA SILVA",
+  "customer_email": "teste@email.com",
+  "customer_cpf": "00000000191",
+  "customer_phone": "11999999999",
+  "description": "Teste Curso Digital"
+}
+```
+
+### **CPF de Teste Válido:**
+```
+00000000191 (válido pelo algoritmo)
+```
+
+---
+
+## 📞 SUPORTE
+
+**Documentação Oficial:** https://app.4mpagamentos.com/docs  
+**Status da API:** https://status.4mpagamentos.com  
+**Suporte Técnico:** suporte@4mpagamentos.com  
+
+---
+
+## ✅ CHECKLIST DE INTEGRAÇÃO
+
+- [ ] API Token configurado nas variáveis de ambiente
+- [ ] Headers de autenticação corretos (Bearer Token)
+- [ ] Campo `amount` como STRING
+- [ ] CPF sem formatação (apenas números)
+- [ ] Timeout de requisição configurado (30s)
+- [ ] Tratamento de erros implementado
+- [ ] Verificação de status a cada 5 segundos
+- [ ] QR Code sendo gerado corretamente
+- [ ] Redirecionamento após pagamento confirmado
+- [ ] Logs para debugging ativados
+
+---
+
+## 🚀 TESTADO E APROVADO
+
+**Última Transação Teste:**
+- ✅ Transaction ID: 4M3520135486
+- ✅ PIX Code: 178 caracteres (válido)
+- ✅ Status: Funcionando 100%
+- ✅ Valor: R$ 24,90
+- ✅ Data: 16/10/2025
+
+---
+
+**Documentação completa e pronta para uso em qualquer projeto!** 🎉
