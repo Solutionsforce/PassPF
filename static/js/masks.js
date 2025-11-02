@@ -114,6 +114,48 @@ function setupEmailAutocomplete(input) {
     });
 }
 
+// Consultar CEP na API ViaCEP
+function consultarCEP(cep) {
+    const cepLimpo = cep.replace(/\D/g, '');
+    
+    if (cepLimpo.length === 8) {
+        fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
+            .then(response => response.json())
+            .then(data => {
+                if (!data.erro) {
+                    const logradouroInput = document.getElementById('logradouro');
+                    const bairroInput = document.getElementById('bairro');
+                    const cidadeInput = document.getElementById('cidade_endereco');
+                    const ufSelect = document.getElementById('uf_endereco');
+                    const dddInput = document.getElementById('ddd');
+                    
+                    if (logradouroInput && data.logradouro) {
+                        logradouroInput.value = data.logradouro;
+                    }
+                    
+                    if (bairroInput && data.bairro) {
+                        bairroInput.value = data.bairro;
+                    }
+                    
+                    if (cidadeInput && data.localidade) {
+                        cidadeInput.value = data.localidade;
+                    }
+                    
+                    if (ufSelect && data.uf) {
+                        ufSelect.value = data.uf;
+                    }
+                    
+                    if (dddInput && data.ddd) {
+                        dddInput.value = data.ddd;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao consultar CEP:', error);
+            });
+    }
+}
+
 // Aplicar máscaras quando o documento carregar
 document.addEventListener('DOMContentLoaded', function() {
     // CPF
@@ -148,11 +190,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // CEP
+    // CEP com máscara e consulta automática
     const cepInputs = document.querySelectorAll('input[name="cep"]');
     cepInputs.forEach(function(input) {
         input.addEventListener('input', function() {
             maskCEP(this);
+            consultarCEP(this.value);
         });
     });
     
