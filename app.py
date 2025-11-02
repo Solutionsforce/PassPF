@@ -1,9 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, send_file, make_response
 from datetime import datetime, timedelta
 import random
 import string
 import os
 import json
+from io import BytesIO
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.units import mm
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.pdfgen import canvas
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SESSION_SECRET', 'sua_chave_secreta_aqui_123456')
@@ -187,6 +195,123 @@ def agendar():
                          quantidade=quantidade,
                          protocolo=protocolo,
                          data=data_atual)
+
+@app.route('/download-protocolo')
+def download_protocolo():
+    protocolo = session.get('protocolo', 'N/A')
+    data_emissao = session.get('data_emissao', 'N/A')
+    dados_pessoais = session.get('dados_pessoais', {})
+    dados_complementares = session.get('dados_complementares', {})
+    
+    buffer = BytesIO()
+    
+    pdf = canvas.Canvas(buffer, pagesize=A4)
+    width, height = A4
+    
+    y = height - 50
+    
+    pdf.setFont("Helvetica-Bold", 16)
+    pdf.drawCentredString(width / 2, y, "PROTOCOLO DE SOLICITAÇÃO")
+    y -= 20
+    pdf.drawCentredString(width / 2, y, "DE DOCUMENTO DE VIAGEM")
+    y -= 40
+    
+    pdf.setStrokeColor(colors.black)
+    pdf.setLineWidth(1.5)
+    pdf.rect(50, y - 200, width - 100, 200, stroke=1, fill=0)
+    
+    pdf.setFont("Helvetica-Bold", 11)
+    pdf.drawString(70, y - 25, "Tipo de Documento de Viagem:")
+    pdf.setFont("Helvetica", 11)
+    pdf.drawString(280, y - 25, "PASSAPORTE COMUM - ICAO")
+    
+    pdf.setFont("Helvetica-Bold", 11)
+    pdf.drawString(70, y - 45, "Emissão do Protocolo:")
+    pdf.setFont("Helvetica", 11)
+    pdf.drawString(280, y - 45, data_emissao)
+    
+    pdf.setFont("Helvetica-Bold", 14)
+    pdf.drawString(70, y - 75, f"Protocolo: {protocolo}")
+    
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(70, y - 105, "Dados da Solicitação")
+    
+    pdf.setFont("Helvetica-Bold", 10)
+    pdf.drawString(70, y - 125, "Requerente:")
+    
+    pdf.setFont("Helvetica-Bold", 9)
+    pdf.drawString(70, y - 145, "Nome Completo:")
+    pdf.setFont("Helvetica", 9)
+    pdf.drawString(170, y - 145, dados_pessoais.get('nome', '').upper())
+    
+    pdf.setFont("Helvetica-Bold", 9)
+    pdf.drawString(70, y - 160, "Sexo:")
+    pdf.setFont("Helvetica", 9)
+    pdf.drawString(170, y - 160, dados_pessoais.get('sexo', '').capitalize())
+    
+    pdf.setFont("Helvetica-Bold", 9)
+    pdf.drawString(280, y - 160, "Data de Nascimento:")
+    pdf.setFont("Helvetica", 9)
+    pdf.drawString(400, y - 160, dados_pessoais.get('data_nascimento', ''))
+    
+    pdf.setFont("Helvetica-Bold", 9)
+    pdf.drawString(70, y - 180, "Endereço:")
+    pdf.setFont("Helvetica", 8)
+    endereco_completo = f"{dados_complementares.get('logradouro', '').upper()} - {dados_complementares.get('bairro', '').upper()}"
+    pdf.drawString(170, y - 180, endereco_completo)
+    
+    cidade_uf = f"{dados_complementares.get('cidade_endereco', '').upper()}/{dados_complementares.get('uf_endereco', '').upper()} - BRASIL"
+    pdf.drawString(170, y - 193, cidade_uf)
+    
+    y -= 220
+    
+    pdf.setFont("Helvetica-Bold", 11)
+    pdf.drawString(50, y, "INFORMAÇÕES IMPORTANTES:")
+    y -= 20
+    
+    informacoes = [
+        "- Caso o documento de viagem não seja retirado no prazo de 90 (noventa) dias, contados a",
+        "  partir da confirmação de pedido de passaporte no posto da PF, o mesmo será cancelado;",
+        "",
+        "- A solicitação de passaporte preenchida eletronicamente e não confirmada, no posto da PF,",
+        "  em até 90 (noventa) dias será cancelada automaticamente;",
+        "",
+        "- Os documentos apresentados poderão ser recusados se o tempo de expedição e/ou o mau",
+        "  estado de conservação impossibilitarem a identificação do requerente;",
+        "",
+        "- O simples agendamento e/ou recibo bancário não comprova o pagamento da taxa;",
+        "",
+        "- Para crianças menores de 3 anos de idade deverá ser apresentada 1(uma) fotografia facial,",
+        "  tamanho 5X7, recente, colorida, sem data e em fundo branco.",
+        "",
+        "- Em algumas unidades é obrigatório o agendamento prévio do atendimento pelo site",
+        "  www.dpf.gov.br.",
+        "",
+        "- Comparecer ao Posto de Atendimento do Departamento de Polícia Federal, munido deste",
+        "  protocolo e de documentos originais, para validação e coleta de foto, impressões digitais",
+        "  e assinatura."
+    ]
+    
+    pdf.setFont("Helvetica", 9)
+    for info in informacoes:
+        pdf.drawString(50, y, info)
+        y -= 12
+    
+    pdf.setFont("Helvetica-Oblique", 8)
+    pdf.drawString(50, 30, f"Documento gerado em {datetime.now().strftime('%d/%m/%Y às %H:%M')}")
+    
+    pdf.save()
+    
+    buffer.seek(0)
+    
+    response = make_response(send_file(
+        buffer,
+        mimetype='application/pdf',
+        as_attachment=True,
+        download_name=f'protocolo_{protocolo.replace(".", "-")}.pdf'
+    ))
+    
+    return response
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
