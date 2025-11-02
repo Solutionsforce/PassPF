@@ -705,13 +705,22 @@ body {
         font-size: 14px;
     }
     .form-input,
-    .form-select {
-        font-size: 13px;
-        padding: 4px 7px;
-        height: 28px;
+    .form-select,
+    .form-input-complement,
+    .form-select-complement,
+    .form-input-doc,
+    .form-select-doc,
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+        font-size: 16px !important;
+        padding: 6px 8px;
+        height: auto;
+        min-height: 32px;
     }
     .form-checkbox-group {
-        font-size: 13px;
+        font-size: 14px;
     }
     .form-checkbox {
         width: 15px;
