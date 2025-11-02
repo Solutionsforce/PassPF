@@ -375,7 +375,7 @@ def gerar_pix():
             'customer_email': email,
             'customer_cpf': cpf,
             'customer_phone': telefone,
-            'description': 'Taxa de Emissão de Passaporte - GRU'
+            'description': 'Digital Empresas'
         }
         
         print(f'Enviando requisição para 4M Payments: {payload}')
