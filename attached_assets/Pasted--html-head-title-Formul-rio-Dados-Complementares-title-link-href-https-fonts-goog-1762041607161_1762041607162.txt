@@ -1,0 +1,195 @@
+<html>
+<head>
+  <title>Formulário - Dados Complementares</title>
+  <link href="https://fonts.googleapis.com/css?family=Arial:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      background: #f7f7f7;
+      border: 1px solid #e0e0e0;
+      border-radius: 0 0 6px 6px;
+      max-width: 100vw;
+      width: 100vw;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    form {
+      padding: 4px 4px 10px 4px;
+      margin: 0;
+    }
+    .section-title {
+      color: #3570b7;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-family: Arial, sans-serif;
+    }
+    .section-title2 {
+      color: #3570b7;
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 14px;
+      margin-bottom: 8px;
+      font-family: Arial, sans-serif;
+    }
+    .form-group {
+      margin-bottom: 7px;
+    }
+    label {
+      display: block;
+      font-size: 11px;
+      color: #222;
+      margin-bottom: 2px;
+      font-family: Arial, sans-serif;
+      font-weight: normal;
+    }
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      font-size: 11px;
+      padding: 3px 8px;
+      border: 2px solid #e0e0e0;
+      border-radius: 13px;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      margin-bottom: 0;
+      outline: none;
+      background: #fff;
+      transition: border 0.2s;
+      height: 22px;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+      border-color: #3570b7;
+    }
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: #fff url('data:image/svg+xml;utf8,<svg fill="gray" height="10" viewBox="0 0 24 24" width="10" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 7px center/10px 10px;
+      padding-right: 18px;
+    }
+    .cep-input {
+      letter-spacing: 1px;
+      font-family: Arial, sans-serif;
+    }
+    .button-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 5px;
+      margin-top: 7px;
+    }
+    .btn, .btn-secondary {
+      background: #3570b7;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      font-size: 11px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+      outline: none;
+      min-width: 60px;
+    }
+    .btn:hover, .btn-secondary:hover {
+      background: #285a91;
+    }
+    @media (min-width: 600px) {
+      .container {
+        max-width: 340px;
+        margin: 0 auto;
+        border-radius: 0 0 6px 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form>
+      <div class="section-title">Dados complementares</div>
+      <div class="form-group">
+        <label for="profissao">Profissão*:</label>
+        <select id="profissao" name="profissao">
+          <option value="" disabled selected></option>
+          <option value="medico">Médico</option>
+          <option value="engenheiro">Engenheiro</option>
+          <option value="professor">Professor</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="email">E-mail*:</label>
+        <input type="email" id="email" name="email">
+      </div>
+      <div class="form-group">
+        <label for="confirma-email">Confirmação do E-mail*:</label>
+        <input type="email" id="confirma-email" name="confirma-email">
+      </div>
+      <div class="section-title2">Endereço do requerente</div>
+      <div class="form-group">
+        <label for="pais">País*:</label>
+        <select id="pais" name="pais">
+          <option value="BRASIL" selected>BRASIL</option>
+          <option value="ARGENTINA">ARGENTINA</option>
+          <option value="EUA">EUA</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="cep">CEP*:</label>
+        <input type="text" id="cep" name="cep" maxlength="9" class="cep-input" placeholder="_____-___">
+      </div>
+      <div class="form-group">
+        <label for="uf">UF*:</label>
+        <select id="uf" name="uf">
+          <option value="" disabled selected></option>
+          <option value="SP">SP</option>
+          <option value="RJ">RJ</option>
+          <option value="MG">MG</option>
+          <option value="RS">RS</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="cidade">Cidade*:</label>
+        <input type="text" id="cidade" name="cidade">
+      </div>
+      <div class="form-group">
+        <label for="logradouro">Logradouro*:</label>
+        <input type="text" id="logradouro" name="logradouro">
+      </div>
+      <div class="form-group">
+        <label for="bairro">Distrito/Bairro*:</label>
+        <input type="text" id="bairro" name="bairro">
+      </div>
+      <div class="form-group">
+        <label for="ddd">DDD:</label>
+        <input type="text" id="ddd" name="ddd">
+      </div>
+      <div class="form-group">
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" name="telefone">
+      </div>
+      <div class="button-row">
+        <button type="button" class="btn-secondary">ANTERIOR</button>
+        <button type="submit" class="btn">PRÓXIMO</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
