@@ -42,7 +42,47 @@
 
             <div class="form-group">
                 <label class="form-label-doc" for="orgao_emissor">Órgão emissor:</label>
-                <input class="form-input-doc" type="text" id="orgao_emissor" name="orgao_emissor" value="{{ dados.get('orgao_emissor', '') }}">
+                <select class="form-select-doc" id="orgao_emissor" name="orgao_emissor">
+                    <option value="" {% if not dados.get('orgao_emissor') %}selected{% endif %}></option>
+                    <option value="SSP" {% if dados.get('orgao_emissor') == 'SSP' %}selected{% endif %}>SSP - Secretaria de Segurança Pública</option>
+                    <option value="DETRAN" {% if dados.get('orgao_emissor') == 'DETRAN' %}selected{% endif %}>DETRAN - Departamento de Trânsito</option>
+                    <option value="PF" {% if dados.get('orgao_emissor') == 'PF' %}selected{% endif %}>PF - Polícia Federal</option>
+                    <option value="PC" {% if dados.get('orgao_emissor') == 'PC' %}selected{% endif %}>PC - Polícia Civil</option>
+                    <option value="PM" {% if dados.get('orgao_emissor') == 'PM' %}selected{% endif %}>PM - Polícia Militar</option>
+                    <option value="DIC" {% if dados.get('orgao_emissor') == 'DIC' %}selected{% endif %}>DIC - Diretoria de Identificação Civil</option>
+                    <option value="IFP" {% if dados.get('orgao_emissor') == 'IFP' %}selected{% endif %}>IFP - Instituto Félix Pacheco</option>
+                    <option value="IML" {% if dados.get('orgao_emissor') == 'IML' %}selected{% endif %}>IML - Instituto Médico Legal</option>
+                    <option value="CNH" {% if dados.get('orgao_emissor') == 'CNH' %}selected{% endif %}>CNH - Carteira Nacional de Habilitação</option>
+                    <option value="MAE" {% if dados.get('orgao_emissor') == 'MAE' %}selected{% endif %}>MAE - Ministério da Aeronáutica</option>
+                    <option value="MEX" {% if dados.get('orgao_emissor') == 'MEX' %}selected{% endif %}>MEX - Ministério do Exército</option>
+                    <option value="MAER" {% if dados.get('orgao_emissor') == 'MAER' %}selected{% endif %}>MAER - Ministério da Aeronáutica</option>
+                    <option value="MM" {% if dados.get('orgao_emissor') == 'MM' %}selected{% endif %}>MM - Ministério da Marinha</option>
+                    <option value="SES" {% if dados.get('orgao_emissor') == 'SES' %}selected{% endif %}>SES - Secretaria de Estado da Saúde</option>
+                    <option value="SECC" {% if dados.get('orgao_emissor') == 'SECC' %}selected{% endif %}>SECC - Secretaria de Estado da Cultura</option>
+                    <option value="SJS" {% if dados.get('orgao_emissor') == 'SJS' %}selected{% endif %}>SJS - Secretaria da Justiça e Segurança</option>
+                    <option value="CGPI" {% if dados.get('orgao_emissor') == 'CGPI' %}selected{% endif %}>CGPI - Coordenação Geral de Privilégios e Imunidades</option>
+                    <option value="CGPMAF" {% if dados.get('orgao_emissor') == 'CGPMAF' %}selected{% endif %}>CGPMAF - Coordenadoria Geral de Polícia Marítima</option>
+                    <option value="CGCFP" {% if dados.get('orgao_emissor') == 'CGCFP' %}selected{% endif %}>CGCFP - Coordenadoria Geral de Controle de Fiscalização</option>
+                    <option value="CTPS" {% if dados.get('orgao_emissor') == 'CTPS' %}selected{% endif %}>CTPS - Carteira de Trabalho e Previdência Social</option>
+                    <option value="FGTS" {% if dados.get('orgao_emissor') == 'FGTS' %}selected{% endif %}>FGTS - Fundo de Garantia do Tempo de Serviço</option>
+                    <option value="CRF" {% if dados.get('orgao_emissor') == 'CRF' %}selected{% endif %}>CRF - Conselho Regional de Farmácia</option>
+                    <option value="CRA" {% if dados.get('orgao_emissor') == 'CRA' %}selected{% endif %}>CRA - Conselho Regional de Administração</option>
+                    <option value="CRB" {% if dados.get('orgao_emissor') == 'CRB' %}selected{% endif %}>CRB - Conselho Regional de Biblioteconomia</option>
+                    <option value="CRC" {% if dados.get('orgao_emissor') == 'CRC' %}selected{% endif %}>CRC - Conselho Regional de Contabilidade</option>
+                    <option value="CREA" {% if dados.get('orgao_emissor') == 'CREA' %}selected{% endif %}>CREA - Conselho Regional de Engenharia e Agronomia</option>
+                    <option value="CREF" {% if dados.get('orgao_emissor') == 'CREF' %}selected{% endif %}>CREF - Conselho Regional de Educação Física</option>
+                    <option value="CRECI" {% if dados.get('orgao_emissor') == 'CRECI' %}selected{% endif %}>CRECI - Conselho Regional de Corretores de Imóveis</option>
+                    <option value="CRN" {% if dados.get('orgao_emissor') == 'CRN' %}selected{% endif %}>CRN - Conselho Regional de Nutrição</option>
+                    <option value="CRQ" {% if dados.get('orgao_emissor') == 'CRQ' %}selected{% endif %}>CRQ - Conselho Regional de Química</option>
+                    <option value="CRM" {% if dados.get('orgao_emissor') == 'CRM' %}selected{% endif %}>CRM - Conselho Regional de Medicina</option>
+                    <option value="CRMV" {% if dados.get('orgao_emissor') == 'CRMV' %}selected{% endif %}>CRMV - Conselho Regional de Medicina Veterinária</option>
+                    <option value="CRO" {% if dados.get('orgao_emissor') == 'CRO' %}selected{% endif %}>CRO - Conselho Regional de Odontologia</option>
+                    <option value="CRP" {% if dados.get('orgao_emissor') == 'CRP' %}selected{% endif %}>CRP - Conselho Regional de Psicologia</option>
+                    <option value="OAB" {% if dados.get('orgao_emissor') == 'OAB' %}selected{% endif %}>OAB - Ordem dos Advogados do Brasil</option>
+                    <option value="EB" {% if dados.get('orgao_emissor') == 'EB' %}selected{% endif %}>EB - Exército Brasileiro</option>
+                    <option value="FAB" {% if dados.get('orgao_emissor') == 'FAB' %}selected{% endif %}>FAB - Força Aérea Brasileira</option>
+                    <option value="MB" {% if dados.get('orgao_emissor') == 'MB' %}selected{% endif %}>MB - Marinha do Brasil</option>
+                </select>
             </div>
 
             <div class="form-group">
