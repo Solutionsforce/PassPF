@@ -27,3 +27,26 @@ instance/
 .coverage
 htmlcov/
 *.log
+
+# Variáveis de ambiente e segredos
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+secrets.json
+
+# Arquivos de configuração local
+config_local.py
+local_settings.py
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
