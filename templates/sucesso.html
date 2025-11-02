@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .sucesso-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 40px;
+        text-align: center;
+    }
+    
+    .sucesso-icone {
+        width: 100px;
+        height: 100px;
+        background: #28a745;
+        border-radius: 50%;
+        margin: 0 auto 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 60px;
+        color: #fff;
+    }
+    
+    .sucesso-titulo {
+        font-size: 32px;
+        font-weight: 600;
+        color: #28a745;
+        margin-bottom: 15px;
+    }
+    
+    .sucesso-subtitulo {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 30px;
+    }
+    
+    .info-box {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        padding: 25px;
+        margin-bottom: 25px;
+        text-align: left;
+    }
+    
+    .info-item {
+        margin-bottom: 15px;
+    }
+    
+    .info-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #666;
+        margin-bottom: 5px;
+    }
+    
+    .info-valor {
+        font-size: 18px;
+        color: #000;
+        font-weight: 500;
+    }
+    
+    .proximos-passos {
+        background: #e8f4f8;
+        border: 2px solid #337ab7;
+        padding: 25px;
+        margin-bottom: 25px;
+        text-align: left;
+    }
+    
+    .proximos-passos-titulo {
+        font-size: 18px;
+        font-weight: 600;
+        color: #337ab7;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #337ab7;
+    }
+    
+    .proximos-passos-lista {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .proximos-passos-lista li {
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 12px;
+        padding-left: 30px;
+        position: relative;
+    }
+    
+    .proximos-passos-lista li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #28a745;
+        font-weight: 600;
+        font-size: 18px;
+    }
+    
+    .btn-voltar {
+        display: inline-block;
+        background: #337ab7;
+        color: #fff;
+        padding: 15px 40px;
+        font-size: 16px;
+        font-weight: 600;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .btn-voltar:hover {
+        background: #2a6496;
+        color: #fff;
+    }
+</style>
+
+<div class="sucesso-container">
+    <div class="sucesso-icone">
+        ✓
+    </div>
+    
+    <div class="sucesso-titulo">Pagamento Confirmado!</div>
+    <div class="sucesso-subtitulo">Sua GRU de Passaporte foi paga com sucesso</div>
+    
+    <div class="info-box">
+        <div class="info-item">
+            <div class="info-label">Protocolo de Solicitação:</div>
+            <div class="info-valor">{{ protocolo }}</div>
+        </div>
+        
+        <div class="info-item">
+            <div class="info-label">ID da Transação:</div>
+            <div class="info-valor">{{ transaction_id }}</div>
+        </div>
+        
+        <div class="info-item">
+            <div class="info-label">Valor Pago:</div>
+            <div class="info-valor">R$ 257,25</div>
+        </div>
+        
+        <div class="info-item">
+            <div class="info-label">Status:</div>
+            <div class="info-valor" style="color: #28a745;">✓ Pagamento Aprovado</div>
+        </div>
+    </div>
+    
+    <div class="proximos-passos">
+        <div class="proximos-passos-titulo">Próximos Passos</div>
+        <ul class="proximos-passos-lista">
+            <li>Guarde o número do protocolo: <strong>{{ protocolo }}</strong></li>
+            <li>Compareça à unidade de atendimento na data e horário agendados</li>
+            <li>Leve todos os documentos originais necessários</li>
+            <li>Apresente este protocolo e o comprovante de pagamento</li>
+            <li>Realize a coleta de foto, impressões digitais e assinatura</li>
+        </ul>
+    </div>
+    
+    <div style="margin-top: 30px;">
+        <a href="/" class="btn-voltar">VOLTAR PARA PÁGINA INICIAL</a>
+    </div>
+</div>
+
+{% endblock %}

