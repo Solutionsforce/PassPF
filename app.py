@@ -322,11 +322,22 @@ def checkout():
     dados_pessoais = session.get('dados_pessoais', {})
     dados_complementares = session.get('dados_complementares', {})
     
+    print(f'DEBUG - Dados pessoais: {dados_pessoais}')
+    print(f'DEBUG - Dados complementares: {dados_complementares}')
+    
+    nome = dados_pessoais.get('nome', '')
+    cpf = dados_pessoais.get('cpf', '').replace('.', '').replace('-', '')
+    email = dados_pessoais.get('email', '')
+    telefone_raw = dados_complementares.get('telefone', '')
+    telefone = telefone_raw.replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
+    
+    print(f'DEBUG - Nome: {nome}, CPF: {cpf}, Email: {email}, Telefone: {telefone}')
+    
     dados_usuario = {
-        'nome': dados_pessoais.get('nome', ''),
-        'cpf': dados_pessoais.get('cpf', '').replace('.', '').replace('-', ''),
-        'email': dados_pessoais.get('email', ''),
-        'telefone': dados_complementares.get('telefone', '').replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
+        'nome': nome,
+        'cpf': cpf,
+        'email': email,
+        'telefone': telefone
     }
     
     return render_template('checkout.html', dados_usuario=dados_usuario)
