@@ -14,9 +14,21 @@
         <strong>ATENÇÃO:</strong>
         PARA O AGENDAMENTO NO POSTO DE EXPEDIÇÃO DO PASSAPORTE É NECESSÁRIO O PAGAMENTO DA GRU E CORRESPONDENTE COMPENSAÇÃO BANCÁRIA.
     </div>
-    <div class="normal" style="margin-top: 15px;">
-        Caso queira acompanhar sua solicitação, clique no botão abaixo:
-    </div>
-    <a href="https://servicos.pf.gov.br/sinpa/realizarAgendamento.do" target="_blank" class="nova-solicitacao-btn" style="margin-top: 10px; display: inline-block;">PROSSEGUIR</a>
+    <form method="GET" action="https://servicos.pf.gov.br/sinpa/realizarAgendamento.do" target="_blank">
+        <div class="form-section">
+            <label for="quantidade">Informe a quantidade de solicitações a agendar:</label>
+            <select id="quantidade" name="quantidade">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div class="normal" style="margin-top: 15px;">
+            Caso queira acompanhar sua solicitação, clique no botão abaixo:
+        </div>
+        <input type="submit" value="PROSSEGUIR">
+    </form>
 </div>
 {% endblock %}
