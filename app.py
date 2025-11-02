@@ -2,9 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime
 import random
 import string
+import os
 
 app = Flask(__name__)
-app.secret_key = 'sua_chave_secreta_aqui_123456'
+app.secret_key = os.environ.get('SESSION_SECRET', 'sua_chave_secreta_aqui_123456')
 
 def gerar_protocolo():
     letras = ''.join(random.choices(string.ascii_uppercase, k=2))
@@ -50,6 +51,8 @@ def dados_complementares():
 @app.route('/nova-solicitacao/revisar-dados', methods=['GET', 'POST'])
 def revisar_dados():
     if request.method == 'POST':
+        protocolo = gerar_protocolo()
+        session['protocolo'] = protocolo
         return redirect(url_for('confirmacao'))
     
     dados_pessoais = session.get('dados_pessoais', {})
@@ -60,6 +63,11 @@ def revisar_dados():
                          dados_pessoais=dados_pessoais,
                          dados_documentos=dados_documentos,
                          dados_complementares=dados_complementares)
+
+@app.route('/confirmacao')
+def confirmacao():
+    protocolo = session.get('protocolo', 'N/A')
+    return render_template('confirmacao.html', protocolo=protocolo)
 
 @app.route('/agendar', methods=['POST'])
 def agendar():

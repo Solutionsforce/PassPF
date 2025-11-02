@@ -1,24 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="success-box">
-    <h2>✓ Agendamento Processado com Sucesso!</h2>
-    <p>Sua solicitação de agendamento foi registrada.</p>
+<div class="title nova-solicitacao">
+    Solicitação enviada com sucesso
 </div>
 
-<div class="info-section">
-    <h3>Detalhes do Agendamento</h3>
-    <p><strong>Quantidade de solicitações:</strong> {{ quantidade }}</p>
-    <p><strong>Protocolo:</strong> {{ protocolo }}</p>
-    <p><strong>Data de registro:</strong> {{ data }}</p>
-    
-    <div class="alert" style="margin-top: 20px;">
-        <strong>PRÓXIMOS PASSOS:</strong><br>
-        1. Aguarde a confirmação por e-mail<br>
-        2. Verifique a disponibilidade de datas no posto de expedição<br>
-        3. Leve todos os documentos necessários no dia agendado
+<div class="form-container-wrapper">
+    <div class="form-container" style="text-align: center; padding: 40px 20px;">
+        
+        <div style="color: #28a745; font-size: 60px; margin-bottom: 20px;">✓</div>
+        
+        <div class="revisar-title" style="text-align: center; font-size: 20px; color: #28a745; margin-bottom: 20px;">
+            Solicitação enviada com sucesso!
+        </div>
+
+        <div class="revisar-info-text" style="text-align: center; margin-bottom: 30px;">
+            Sua solicitação de passaporte foi recebida e está em análise.
+        </div>
+
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 30px;">
+            <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Número do Protocolo:</div>
+            <div style="color: #337ab7; font-size: 24px; font-weight: bold; font-family: 'Courier New', monospace;">
+                {{ protocolo }}
+            </div>
+        </div>
+
+        <div class="revisar-info-text" style="text-align: center; margin-bottom: 30px;">
+            Anote ou imprima este número de protocolo. Ele será necessário para acompanhar o andamento da sua solicitação.
+        </div>
+
+        <div style="margin-top: 40px;">
+            <a href="{{ url_for('index') }}" class="doc-btn-proximo" style="display: inline-block; text-decoration: none; margin: 0 auto;">
+                VOLTAR À PÁGINA INICIAL
+            </a>
+        </div>
+
     </div>
-    
-    <a href="{{ url_for('index') }}" class="back-button">← VOLTAR À PÁGINA INICIAL</a>
 </div>
 {% endblock %}

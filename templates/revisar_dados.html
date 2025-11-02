@@ -31,24 +31,100 @@
                 Caso detecte algum erro nos dados a seguir, volte ao campo correspondente para corrigir. Erro em algum desses campos implicará em <strong>ATRASO</strong> na entrega do seu passaporte. Seguindo o padrão internacional ICAO, os sobrenomes poderão ser abreviados na impressão do documento de viagem.
             </div>
 
+            <div class="revisar-section-title">DADOS PESSOAIS</div>
+
             <div class="revisar-label">Nome Completo</div>
             <div class="revisar-value">{{ dados_pessoais.get('nome_completo', '') }}</div>
 
-            <div class="revisar-label">Nacionalidade</div>
-            <div class="revisar-value">{{ dados_pessoais.get('nacionalidade', 'BRASIL') }}</div>
-
-            <div class="revisar-label">Data de Nascimento</div>
-            <div class="revisar-value">{{ dados_pessoais.get('data_nascimento', '') }}</div>
+            <div class="revisar-label">CPF</div>
+            <div class="revisar-value">{{ dados_pessoais.get('cpf', '') }}</div>
 
             <div class="revisar-label">Sexo</div>
             <div class="revisar-value">{{ dados_pessoais.get('sexo', '') }}</div>
 
+            <div class="revisar-label">Raça/Cor</div>
+            <div class="revisar-value">{{ dados_pessoais.get('raca_cor', '') }}</div>
+
+            <div class="revisar-label">Filiação 1</div>
+            <div class="revisar-value">{{ dados_pessoais.get('filiacao_1', '') }}</div>
+
+            <div class="revisar-label">Filiação 2</div>
+            <div class="revisar-value">{{ dados_pessoais.get('filiacao_2', '') }}</div>
+
+            <div class="revisar-label">Data de Nascimento</div>
+            <div class="revisar-value">{{ dados_pessoais.get('data_nascimento', '') }}</div>
+
             <div class="revisar-label">Naturalidade</div>
             <div class="revisar-value">{{ dados_pessoais.get('cidade_nascimento', '') }} / {{ dados_pessoais.get('uf_nascimento', '') }}</div>
 
-            <div class="revisar-label">Filiação</div>
-            <div class="revisar-value">{{ dados_pessoais.get('filiacao_1', '') }}</div>
-            <div class="revisar-value">{{ dados_pessoais.get('filiacao_2', '') }}</div>
+            <div class="revisar-label">Nacionalidade</div>
+            <div class="revisar-value">{{ dados_pessoais.get('nacionalidade', 'BRASIL') }}</div>
+
+            <div class="revisar-label">Estado Civil</div>
+            <div class="revisar-value">{{ dados_pessoais.get('estado_civil', '') }}</div>
+
+            <div class="revisar-section-title">DOCUMENTOS</div>
+
+            <div class="revisar-label">Documento de Identificação - Número</div>
+            <div class="revisar-value">{{ dados_documentos.get('numero_identidade', '') }}</div>
+
+            <div class="revisar-label">Data de Emissão</div>
+            <div class="revisar-value">{{ dados_documentos.get('data_emissao', '') }}</div>
+
+            <div class="revisar-label">Órgão Emissor</div>
+            <div class="revisar-value">{{ dados_documentos.get('orgao_emissor', '') }}</div>
+
+            <div class="revisar-label">UF de Expedição</div>
+            <div class="revisar-value">{{ dados_documentos.get('uf_expedicao', '') }}</div>
+
+            {% if dados_documentos.get('certidao_tipo') %}
+            <div class="revisar-label">Tipo de Certidão</div>
+            <div class="revisar-value">{{ dados_documentos.get('certidao_tipo', '') }}</div>
+
+            <div class="revisar-label">Matrícula</div>
+            <div class="revisar-value">{{ dados_documentos.get('matricula', '') }}</div>
+
+            <div class="revisar-label">Tipo</div>
+            <div class="revisar-value">{{ dados_documentos.get('tipo', '') }}</div>
+
+            <div class="revisar-label">Livro</div>
+            <div class="revisar-value">{{ dados_documentos.get('livro', '') }}</div>
+
+            <div class="revisar-label">Folha</div>
+            <div class="revisar-value">{{ dados_documentos.get('folha', '') }}</div>
+
+            <div class="revisar-label">Cidade de Expedição</div>
+            <div class="revisar-value">{{ dados_documentos.get('cidade_expedicao', '') }}</div>
+
+            <div class="revisar-label">UF de Certidão</div>
+            <div class="revisar-value">{{ dados_documentos.get('uf_certidao', '') }}</div>
+            {% endif %}
+
+            <div class="revisar-section-title">DADOS COMPLEMENTARES</div>
+
+            <div class="revisar-label">Profissão</div>
+            <div class="revisar-value">{{ dados_complementares.get('profissao', '') }}</div>
+
+            <div class="revisar-label">E-mail</div>
+            <div class="revisar-value">{{ dados_complementares.get('email', '') }}</div>
+
+            <div class="revisar-label">CEP</div>
+            <div class="revisar-value">{{ dados_complementares.get('cep', '') }}</div>
+
+            <div class="revisar-label">UF</div>
+            <div class="revisar-value">{{ dados_complementares.get('uf_endereco', '') }}</div>
+
+            <div class="revisar-label">Cidade</div>
+            <div class="revisar-value">{{ dados_complementares.get('cidade_endereco', '') }}</div>
+
+            <div class="revisar-label">Logradouro</div>
+            <div class="revisar-value">{{ dados_complementares.get('logradouro', '') }}</div>
+
+            <div class="revisar-label">Distrito/Bairro</div>
+            <div class="revisar-value">{{ dados_complementares.get('bairro', '') }}</div>
+
+            <div class="revisar-label">Telefone</div>
+            <div class="revisar-value">{{ dados_complementares.get('telefone', '') }}</div>
 
             <div class="revisar-checkbox-container">
                 <input type="checkbox" class="revisar-checkbox" id="declaracao" name="declaracao" required>
