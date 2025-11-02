@@ -205,12 +205,7 @@
 
             <div class="form-group">
                 <label class="form-label-doc" for="cidade_expedicao">Cidade expedição:</label>
-                <select class="form-select-doc" id="cidade_expedicao" name="cidade_expedicao">
-                    <option value=""></option>
-                    <option value="cidade1" {% if dados.get('cidade_expedicao') == 'cidade1' %}selected{% endif %}>Cidade 1</option>
-                    <option value="cidade2" {% if dados.get('cidade_expedicao') == 'cidade2' %}selected{% endif %}>Cidade 2</option>
-                    <option value="cidade3" {% if dados.get('cidade_expedicao') == 'cidade3' %}selected{% endif %}>Cidade 3</option>
-                </select>
+                <input class="form-input-doc" type="text" id="cidade_expedicao" name="cidade_expedicao" value="{{ dados.get('cidade_expedicao', '') }}">
             </div>
 
             <div class="doc-section-title" style="margin-top: 10px;">
