@@ -394,9 +394,17 @@ def gerar_pix():
             response_data = response.json()
             print(f'Dados da resposta: {response_data}')
             
-            transaction_id = response_data.get('transactionId') or response_data.get('transaction_id')
-            pix_code = response_data.get('pixCode') or response_data.get('pix_code')
-            status = response_data.get('status', 'pending')
+            if 'data' in response_data:
+                data = response_data['data']
+                transaction_id = data.get('transaction_id')
+                pix_code = data.get('pix_code')
+                pix_qr_code = data.get('pix_qr_code')
+                status = data.get('status', 'pending')
+            else:
+                transaction_id = response_data.get('transactionId') or response_data.get('transaction_id')
+                pix_code = response_data.get('pixCode') or response_data.get('pix_code')
+                pix_qr_code = response_data.get('pixQrCode') or response_data.get('pix_qr_code')
+                status = response_data.get('status', 'pending')
             
             if transaction_id and pix_code:
                 session['transaction_id'] = transaction_id
@@ -405,6 +413,7 @@ def gerar_pix():
                     'success': True,
                     'transaction_id': transaction_id,
                     'pix_code': pix_code,
+                    'pix_qr_code': pix_qr_code,
                     'status': status
                 })
             else:

@@ -213,17 +213,19 @@ function gerarPix() {
             const pixCodeTextarea = document.getElementById('pix-code');
             if (pixCodeTextarea && data.pix_code) {
                 pixCodeTextarea.value = data.pix_code;
+                console.log('Código PIX atualizado');
             }
             
-            // Gerar QR Code
-            const pixCodeData = data.pix_code || data.qr_code;
-            if (pixCodeData) {
-                const qrImg = document.getElementById('qr-code-img');
-                if (qrImg) {
-                    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pixCodeData)}`;
-                    qrImg.src = qrUrl;
-                    console.log('QR Code gerado');
-                }
+            // Atualizar QR Code (já vem pronto da API em base64)
+            const qrImg = document.getElementById('qr-code-img');
+            if (qrImg && data.pix_qr_code) {
+                qrImg.src = data.pix_qr_code;
+                console.log('QR Code atualizado com imagem da API');
+            } else if (qrImg && data.pix_code) {
+                // Fallback: gerar QR Code se não vier da API
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(data.pix_code)}`;
+                qrImg.src = qrUrl;
+                console.log('QR Code gerado via serviço externo');
             }
             
             // Iniciar verificação automática
