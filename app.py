@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_file, make_response, jsonify
 from datetime import datetime, timedelta
+import pytz
 import random
 import string
 import os
@@ -19,6 +20,11 @@ app.secret_key = os.environ.get('SESSION_SECRET', 'sua_chave_secreta_aqui_123456
 
 FOURM_API_TOKEN = os.environ.get('FOURM_PAYMENTS_API_TOKEN')
 FOURM_API_URL = 'https://app.4mpagamentos.com/api/v1'
+
+def obter_data_hora_brasilia():
+    """Retorna a data e hora atual de Brasília"""
+    brasilia_tz = pytz.timezone('America/Sao_Paulo')
+    return datetime.now(brasilia_tz).strftime('%d/%m/%Y %H:%M')
 
 def carregar_unidades():
     with open('unidades_atendimento.json', 'r', encoding='utf-8') as f:
@@ -97,9 +103,7 @@ def revisar_dados():
     if request.method == 'POST':
         if request.form.get('declaracao') == 'on':
             protocolo = gerar_protocolo()
-            data_emissao = datetime.now().strftime('%d/%m/%Y %H:%M')
             session['protocolo'] = protocolo
-            session['data_emissao'] = data_emissao
             return redirect(url_for('protocolo'))
         else:
             return redirect(url_for('revisar_dados'))
@@ -127,7 +131,7 @@ def protocolo():
         return redirect(url_for('checkout'))
     
     protocolo = session.get('protocolo', 'N/A')
-    data_emissao = session.get('data_emissao', 'N/A')
+    data_emissao = obter_data_hora_brasilia()
     dados_pessoais = session.get('dados_pessoais', {})
     dados_complementares = session.get('dados_complementares', {})
     
@@ -203,7 +207,7 @@ def agendar():
 @app.route('/download-protocolo')
 def download_protocolo():
     protocolo = session.get('protocolo', 'N/A')
-    data_emissao = datetime.now().strftime('%d/%m/%Y %H:%M')
+    data_emissao = obter_data_hora_brasilia()
     dados_pessoais = session.get('dados_pessoais', {})
     dados_complementares = session.get('dados_complementares', {})
     
@@ -302,7 +306,7 @@ def download_protocolo():
         y -= 12
     
     pdf.setFont("Helvetica-Oblique", 8)
-    pdf.drawString(50, 30, f"Documento gerado em {datetime.now().strftime('%d/%m/%Y às %H:%M')}")
+    pdf.drawString(50, 30, f"Documento gerado em {obter_data_hora_brasilia()}")
     
     pdf.save()
     
