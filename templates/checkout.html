@@ -59,20 +59,11 @@
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-6 max-w-sm">
         <!-- Aviso de Atenção -->
-        <div class="bg-red-50 border-l-4 border-red-600 p-3 mb-5">
-            <div class="flex items-start">
-                <div class="flex-shrink-0">
-                    <svg class="h-5 w-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                    </svg>
-                </div>
-                <div class="ml-3">
-                    <p class="text-sm font-semibold text-red-800 mb-1">ATENÇÃO</p>
-                    <p class="text-xs text-red-700 leading-relaxed">
-                        O não pagamento da taxa de emissão poderá acarretar no bloqueio temporário para emissão de novo passaporte pelo período de 6 (seis) meses, conforme legislação vigente.
-                    </p>
-                </div>
-            </div>
+        <div class="bg-red-50 border border-red-200 p-3 mb-5">
+            <p class="text-sm font-semibold text-red-800 mb-1">ATENÇÃO</p>
+            <p class="text-xs text-red-700 leading-relaxed">
+                O não pagamento da taxa de emissão poderá acarretar no bloqueio temporário para emissão de novo passaporte pelo período de 6 (seis) meses, conforme legislação vigente.
+            </p>
         </div>
         
         <div class="text-center mb-6">
@@ -219,14 +210,8 @@ function gerarPix() {
         if (data.success) {
             transactionHash = data.transaction_id || data.transaction_hash;
             paymentStatus.innerHTML = `
-                <div class="bg-blue-50 border-l-4 border-blue-700 p-3">
-                    <div class="text-blue-900 text-sm font-semibold mb-1">CÓDIGO PIX GERADO</div>
-                    <div class="text-blue-800 text-xs leading-relaxed">
-                        Utilize o QR Code ou copie o código PIX abaixo para efetuar o pagamento através do aplicativo do seu banco.
-                    </div>
-                    <div class="text-blue-700 text-xs mt-1">
-                        Processamento seguro via sistema de pagamentos instantâneos do Banco Central.
-                    </div>
+                <div class="bg-blue-50 border border-blue-200 p-3">
+                    <div class="text-blue-900 text-sm font-semibold">CÓDIGO PIX GERADO</div>
                 </div>
             `;
             
