@@ -1269,9 +1269,8 @@ body {
 }
 
 .declaracoes-container {
-    background: #fffbf0;
-    border: 1px solid #ffc107;
-    border-radius: 6px;
+    background: #ffffff;
+    border: 1px solid #ddd;
     padding: 20px;
     margin: 25px 0;
 }
@@ -1280,10 +1279,9 @@ body {
     display: flex;
     align-items: flex-start;
     margin-bottom: 15px;
-    padding: 12px;
-    background: #fff;
-    border-radius: 4px;
-    border: 1px solid #e0e0e0;
+    padding: 0;
+    background: transparent;
+    border: none;
 }
 
 .declaracao-item:last-child {
@@ -1291,18 +1289,18 @@ body {
 }
 
 .declaracao-item input[type="checkbox"] {
-    min-width: 18px;
-    width: 18px;
-    height: 18px;
+    min-width: 20px;
+    width: 20px;
+    height: 20px;
     margin-right: 12px;
-    margin-top: 3px;
+    margin-top: 2px;
     cursor: pointer;
     flex-shrink: 0;
 }
 
 .declaracao-item label {
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 16px;
+    line-height: 1.5;
     color: #333;
     cursor: pointer;
     margin: 0;
@@ -1311,6 +1309,26 @@ body {
 .declaracao-item label strong {
     font-weight: 600;
     color: #000;
+}
+
+.btn-primary {
+    background: #2176bc;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 18px 40px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 600px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background: #1a5fa0;
 }
 
 .button-group-center {
