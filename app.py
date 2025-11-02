@@ -384,30 +384,34 @@ def gerar_pix():
         print(f'Status da resposta: {response.status_code}')
         print(f'Resposta: {response.text}')
         
-        if response.status_code == 201:
+        if response.status_code == 200 or response.status_code == 201:
             response_data = response.json()
+            print(f'Dados da resposta: {response_data}')
             
-            if 'data' in response_data and response_data['data']:
-                pix_data = response_data['data']
-                
-                session['transaction_id'] = pix_data.get('transaction_id')
+            transaction_id = response_data.get('transactionId') or response_data.get('transaction_id')
+            pix_code = response_data.get('pixCode') or response_data.get('pix_code')
+            status = response_data.get('status', 'pending')
+            
+            if transaction_id and pix_code:
+                session['transaction_id'] = transaction_id
                 
                 return jsonify({
                     'success': True,
-                    'transaction_id': pix_data.get('transaction_id'),
-                    'pix_code': pix_data.get('pix_code'),
-                    'status': pix_data.get('status', 'pending')
+                    'transaction_id': transaction_id,
+                    'pix_code': pix_code,
+                    'status': status
                 })
             else:
                 return jsonify({
                     'success': False,
-                    'error': 'Resposta inválida da API'
+                    'error': 'Resposta inválida da API - dados incompletos'
                 }), 500
         else:
             error_data = response.json() if response.text else {}
+            error_msg = error_data.get('error', {}).get('message', error_data.get('message', 'Erro ao gerar PIX'))
             return jsonify({
                 'success': False,
-                'error': error_data.get('error', {}).get('message', 'Erro ao gerar PIX')
+                'error': error_msg
             }), response.status_code
             
     except Exception as e:
@@ -431,23 +435,18 @@ def verificar_pagamento(transaction_id):
             timeout=30
         )
         
+        print(f'Verificação de pagamento - Status: {response.status_code}')
+        print(f'Verificação de pagamento - Resposta: {response.text}')
+        
         if response.status_code == 200:
             response_data = response.json()
+            status = response_data.get('status', 'pending')
             
-            if 'data' in response_data and response_data['data']:
-                payment_data = response_data['data']
-                status = payment_data.get('status', 'pending')
-                
-                return jsonify({
-                    'success': True,
-                    'status': status,
-                    'paid': status == 'paid'
-                })
-            else:
-                return jsonify({
-                    'success': False,
-                    'status': 'unknown'
-                })
+            return jsonify({
+                'success': True,
+                'status': status,
+                'paid': status == 'paid'
+            })
         else:
             return jsonify({
                 'success': False,
