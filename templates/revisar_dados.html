@@ -34,31 +34,40 @@
             <div class="revisar-section-title">DADOS PESSOAIS</div>
 
             <div class="revisar-label">Nome Completo</div>
-            <div class="revisar-value">{{ dados_pessoais.get('nome_completo', '') }}</div>
+            <div class="revisar-value">{{ dados_pessoais.get('nome', '') }}</div>
 
             <div class="revisar-label">CPF</div>
-            <div class="revisar-value">{{ dados_pessoais.get('cpf', '') }}</div>
+            <div class="revisar-value">{{ dados_pessoais.get('cpf_responsavel', '') }}</div>
 
             <div class="revisar-label">Sexo</div>
             <div class="revisar-value">{{ dados_pessoais.get('sexo', '') }}</div>
 
             <div class="revisar-label">Raça/Cor</div>
-            <div class="revisar-value">{{ dados_pessoais.get('raca_cor', '') }}</div>
+            <div class="revisar-value">{{ dados_pessoais.get('raca', '') }}</div>
 
             <div class="revisar-label">Filiação 1</div>
-            <div class="revisar-value">{{ dados_pessoais.get('filiacao_1', '') }}</div>
+            <div class="revisar-value">{{ dados_pessoais.get('filiacao1', '') }}</div>
+
+            <div class="revisar-label">Sexo Filiação 1</div>
+            <div class="revisar-value">{{ dados_pessoais.get('sexo_filiacao1', '') }}</div>
 
             <div class="revisar-label">Filiação 2</div>
-            <div class="revisar-value">{{ dados_pessoais.get('filiacao_2', '') }}</div>
+            <div class="revisar-value">{{ dados_pessoais.get('filiacao2', '') }}</div>
+
+            <div class="revisar-label">Sexo Filiação 2</div>
+            <div class="revisar-value">{{ dados_pessoais.get('sexo_filiacao2', '') }}</div>
 
             <div class="revisar-label">Data de Nascimento</div>
             <div class="revisar-value">{{ dados_pessoais.get('data_nascimento', '') }}</div>
 
             <div class="revisar-label">Naturalidade</div>
-            <div class="revisar-value">{{ dados_pessoais.get('cidade_nascimento', '') }} / {{ dados_pessoais.get('uf_nascimento', '') }}</div>
+            <div class="revisar-value">{{ dados_pessoais.get('cidade', '') }} / {{ dados_pessoais.get('uf', '') }}</div>
+
+            <div class="revisar-label">País</div>
+            <div class="revisar-value">{{ dados_pessoais.get('pais', '') }}</div>
 
             <div class="revisar-label">Nacionalidade</div>
-            <div class="revisar-value">{{ dados_pessoais.get('nacionalidade', 'BRASIL') }}</div>
+            <div class="revisar-value">{{ dados_pessoais.get('nacionalidade', '') }}</div>
 
             <div class="revisar-label">Estado Civil</div>
             <div class="revisar-value">{{ dados_pessoais.get('estado_civil', '') }}</div>
@@ -66,7 +75,7 @@
             <div class="revisar-section-title">DOCUMENTOS</div>
 
             <div class="revisar-label">Documento de Identificação - Número</div>
-            <div class="revisar-value">{{ dados_documentos.get('numero_identidade', '') }}</div>
+            <div class="revisar-value">{{ dados_documentos.get('numero_doc', '') }}</div>
 
             <div class="revisar-label">Data de Emissão</div>
             <div class="revisar-value">{{ dados_documentos.get('data_emissao', '') }}</div>
@@ -77,15 +86,18 @@
             <div class="revisar-label">UF de Expedição</div>
             <div class="revisar-value">{{ dados_documentos.get('uf_expedicao', '') }}</div>
 
-            {% if dados_documentos.get('certidao_tipo') %}
-            <div class="revisar-label">Tipo de Certidão</div>
-            <div class="revisar-value">{{ dados_documentos.get('certidao_tipo', '') }}</div>
+            <div class="revisar-label">CPF</div>
+            <div class="revisar-value">{{ dados_documentos.get('cpf', '') }}</div>
 
+            {% if dados_documentos.get('matricula') or dados_documentos.get('tipo') or dados_documentos.get('numero_certidao') %}
             <div class="revisar-label">Matrícula</div>
             <div class="revisar-value">{{ dados_documentos.get('matricula', '') }}</div>
 
             <div class="revisar-label">Tipo</div>
             <div class="revisar-value">{{ dados_documentos.get('tipo', '') }}</div>
+
+            <div class="revisar-label">Número da Certidão</div>
+            <div class="revisar-value">{{ dados_documentos.get('numero_certidao', '') }}</div>
 
             <div class="revisar-label">Livro</div>
             <div class="revisar-value">{{ dados_documentos.get('livro', '') }}</div>
@@ -93,11 +105,25 @@
             <div class="revisar-label">Folha</div>
             <div class="revisar-value">{{ dados_documentos.get('folha', '') }}</div>
 
-            <div class="revisar-label">Cidade de Expedição</div>
-            <div class="revisar-value">{{ dados_documentos.get('cidade_expedicao', '') }}</div>
+            <div class="revisar-label">Cartório</div>
+            <div class="revisar-value">{{ dados_documentos.get('cartorio', '') }}</div>
 
             <div class="revisar-label">UF de Certidão</div>
             <div class="revisar-value">{{ dados_documentos.get('uf_certidao', '') }}</div>
+
+            <div class="revisar-label">Cidade de Expedição</div>
+            <div class="revisar-value">{{ dados_documentos.get('cidade_expedicao', '') }}</div>
+            {% endif %}
+
+            {% if dados_documentos.get('numero_passaporte') %}
+            <div class="revisar-label">Passaporte Anterior - Número</div>
+            <div class="revisar-value">{{ dados_documentos.get('numero_passaporte', '') }}</div>
+
+            <div class="revisar-label">Série</div>
+            <div class="revisar-value">{{ dados_documentos.get('serie', '') }}</div>
+
+            <div class="revisar-label">Situação</div>
+            <div class="revisar-value">{{ dados_documentos.get('situacao', '') }}</div>
             {% endif %}
 
             <div class="revisar-section-title">DADOS COMPLEMENTARES</div>
