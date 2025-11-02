@@ -45,7 +45,7 @@ def dados_complementares():
         return redirect(url_for('revisar_dados'))
     
     dados = session.get('dados_complementares', {})
-    return render_template('nova_solicitacao.html', secao='dados-complementares', dados=dados)
+    return render_template('dados_complementares.html', secao='dados-complementares', dados=dados)
 
 @app.route('/nova-solicitacao/revisar-dados')
 def revisar_dados():

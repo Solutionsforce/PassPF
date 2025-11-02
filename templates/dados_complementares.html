@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="alert-warning">
+    Não utilize o botão voltar do seu navegador pois todos os dados serão perdidos. Utilize apenas os botões do próprio formulário.
+</div>
+
+<div class="title nova-solicitacao">
+    Nova solicitação de passaporte
+</div>
+
+<div class="main-box">
+    <div class="main-box-content">
+        <a href="{{ url_for('dados_pessoais') }}" class="nav-link">Dados pessoais</a>
+        <a href="{{ url_for('documentos') }}" class="nav-link">Documentos</a>
+        <a href="{{ url_for('dados_complementares') }}" class="nav-link active">Dados complementares</a>
+        <a href="#" class="nav-link">Revisar dados</a>
+    </div>
+    <div class="main-box-footer">
+        (*) Preenchimento Obrigatório
+    </div>
+</div>
+
+<div class="form-container-wrapper">
+    <div class="form-container">
+        <form method="POST" action="{{ url_for('dados_complementares') }}">
+            
+            <div class="form-title">Dados complementares</div>
+
+            <div class="form-group">
+                <label class="form-label-doc" for="profissao">Profissão*:</label>
+                <select class="form-select-doc" id="profissao" name="profissao">
+                    <option value="" {% if not dados.get('profissao') %}selected{% endif %} disabled></option>
+                    <option value="medico" {% if dados.get('profissao') == 'medico' %}selected{% endif %}>Médico</option>
+                    <option value="engenheiro" {% if dados.get('profissao') == 'engenheiro' %}selected{% endif %}>Engenheiro</option>
+                    <option value="professor" {% if dados.get('profissao') == 'professor' %}selected{% endif %}>Professor</option>
+                    <option value="outro" {% if dados.get('profissao') == 'outro' %}selected{% endif %}>Outro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-doc" for="email">E-mail*:</label>
+                <input class="form-input-doc" type="email" id="email" name="email" value="{{ dados.get('email', '') }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-doc" for="confirma_email">Confirmação do E-mail*:</label>
+                <input class="form-input-doc" type="email" id="confirma_email" name="confirma_email" value="{{ dados.get('confirma_email', '') }}">
+            </div>
+
+            <div class="doc-section-title" style="margin-top: 14px;">
+                Endereço do requerente
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-doc" for="pais_endereco">País*:</label>
+                <select class="form-select-doc" id="pais_endereco" name="pais_endereco">
+                    <option value="BRASIL" {% if dados.get('pais_endereco') == 'BRASIL' or not dados.get('pais_endereco') %}selected{% endif %}>BRASIL</option>
+                    <option value="ARGENTINA" {% if dados.get('pais_endereco') == 'ARGENTINA' %}selected{% endif %}>ARGENTINA</option>
+                    <option value="EUA" {% if dados.get('pais_endereco') == 'EUA' %}selected{% endif %}>EUA</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-doc" for="cep">CEP*:</label>
+                <input class="form-input-doc" type="text" id="cep" name="cep" maxlength="9" placeholder="_____-___" value="{{ dados.get('cep', '') }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-doc" for="uf_endereco">UF*:</label>
+                <select class="form-select-doc" id="uf_endereco" name="uf_endereco">
+                    <option value="" {% if not dados.get('uf_endereco') %}selected{% endif %} disabled></option>
+                    <option value="AC" {% if dados.get('uf_endereco') == 'AC' %}selected{% endif %}>AC</option>
+                    <option value="AL" {% if dados.get('uf_endereco') == 'AL' %}selected{% endif %}>AL</option>
+                    <option value="AP" {% if dados.get('uf_endereco') == 'AP' %}selected{% endif %}>AP</option>
+                    <option value="AM" {% if dados.get('uf_endereco') == 'AM' %}selected{% endif %}>AM</option>
+                    <option value="BA" {% if dados.get('uf_endereco') == 'BA' %}selected{% endif %}>BA</option>
+                    <option value="CE" {% if dados.get('uf_endereco') == 'CE' %}selected{% endif %}>CE</option>
+                    <option value="DF" {% if dados.get('uf_endereco') == 'DF' %}selected{% endif %}>DF</option>
+                    <option value="ES" {% if dados.get('uf_endereco') == 'ES' %}selected{% endif %}>ES</option>
+                    <option value="GO" {% if dados.get('uf_endereco') == 'GO' %}selected{% endif %}>GO</option>
+                    <option value="MA" {% if dados.get('uf_endereco') == 'MA' %}selected{% endif %}>MA</option>
+                    <option value="MT" {% if dados.get('uf_endereco') == 'MT' %}selected{% endif %}>MT</option>
+                    <option value="MS" {% if dados.get('uf_endereco') == 'MS' %}selected{% endif %}>MS</option>
+                    <option value="MG" {% if dados.get('uf_endereco') == 'MG' %}selected{% endif %}>MG</option>
+                    <option value="PA" {% if dados.get('uf_endereco') == 'PA' %}selected{% endif %}>PA</option>
+                    <option value="PB" {% if dados.get('uf_endereco') == 'PB' %}selected{% endif %}>PB</option>
+                    <option value="PR" {% if dados.get('uf_endereco') == 'PR' %}selected{% endif %}>PR</option>
+                    <option value="PE" {% if dados.get('uf_endereco') == 'PE' %}selected{% endif %}>PE</option>
+                    <option value="PI" {% if dados.get('uf_endereco') == 'PI' %}selected{% endif %}>PI</option>
+                    <option value="RJ" {% if dados.get('uf_endereco') == 'RJ' %}selected{% endif %}>RJ</option>
+                    <option value="RN" {% if dados.get('uf_endereco') == 'RN' %}selected{% endif %}>RN</option>
+                    <option value="RS" {% if dados.get('uf_endereco') == 'RS' %}selected{% endif %}>RS</option>
+                    <option value="RO" {% if dados.get('uf_endereco') == 'RO' %}selected{% endif %}>RO</option>
+                    <option value="RR" {% if dados.get('uf_endereco') == 'RR' %}selected{% endif %}>RR</option>
+                    <option value="SC" {% if dados.get('uf_endereco') == 'SC' %}selected{% endif %}>SC</option>
+                    <option value="SP" {% if dados.get('uf_endereco') == 'SP' %}selected{% endif %}>SP</option>
+                    <option value="SE" {% if dados.get('uf_endereco') == 'SE' %}selected{% endif %}>SE</option>
+                    <option value="TO" {% if dados.get('uf_endereco') == 'TO' %}selected{% endif %}>TO</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-doc" for="cidade_endereco">Cidade*:</label>
+                <input class="form-input-doc" type="text" id="cidade_endereco" name="cidade_endereco" value="{{ dados.get('cidade_endereco', '') }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-doc" for="logradouro">Logradouro*:</label>
+                <input class="form-input-doc" type="text" id="logradouro" name="logradouro" value="{{ dados.get('logradouro', '') }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-doc" for="bairro">Distrito/Bairro*:</label>
+                <input class="form-input-doc" type="text" id="bairro" name="bairro" value="{{ dados.get('bairro', '') }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-doc" for="ddd">DDD:</label>
+                <input class="form-input-doc" type="text" id="ddd" name="ddd" maxlength="2" value="{{ dados.get('ddd', '') }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label-doc" for="telefone">Telefone:</label>
+                <input class="form-input-doc" type="text" id="telefone" name="telefone" value="{{ dados.get('telefone', '') }}">
+            </div>
+
+            <div class="doc-button-row">
+                <a href="{{ url_for('documentos') }}" class="doc-btn-anterior">ANTERIOR</a>
+                <button type="submit" class="doc-btn-proximo">PRÓXIMO</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
