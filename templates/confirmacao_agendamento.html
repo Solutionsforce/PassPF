@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="confirmacao-container">
+    <div class="confirmacao-header">
+        <div class="confirmacao-icon">
+            ✓
+        </div>
+        <h1 class="confirmacao-title">Agendamento Confirmado!</h1>
+    </div>
+
+    <div class="confirmacao-content">
+        <div class="confirmacao-protocolo">
+            <div class="confirmacao-label">Número do Protocolo:</div>
+            <div class="confirmacao-value-destaque">{{ protocolo }}</div>
+        </div>
+
+        {% if unidade %}
+        <div class="confirmacao-section">
+            <div class="confirmacao-section-title">Unidade de Atendimento</div>
+            <div class="confirmacao-info">
+                <div class="confirmacao-label">Unidade:</div>
+                <div class="confirmacao-value">{{ unidade.nome }}</div>
+            </div>
+            <div class="confirmacao-info">
+                <div class="confirmacao-label">Endereço:</div>
+                <div class="confirmacao-value">{{ unidade.endereco }}</div>
+            </div>
+            <div class="confirmacao-info">
+                <div class="confirmacao-label">Cidade/UF:</div>
+                <div class="confirmacao-value">{{ unidade.cidade }}/{{ unidade.uf }}</div>
+            </div>
+            <div class="confirmacao-info">
+                <div class="confirmacao-label">CEP:</div>
+                <div class="confirmacao-value">{{ unidade.cep }}</div>
+            </div>
+            <div class="confirmacao-info">
+                <div class="confirmacao-label">Telefone:</div>
+                <div class="confirmacao-value">{{ unidade.telefone }}</div>
+            </div>
+        </div>
+
+        <div class="confirmacao-section">
+            <div class="confirmacao-section-title">Data e Horário do Atendimento</div>
+            <div class="confirmacao-info">
+                <div class="confirmacao-label">Data:</div>
+                <div class="confirmacao-value">{{ data }}</div>
+            </div>
+            <div class="confirmacao-info">
+                <div class="confirmacao-label">Horário:</div>
+                <div class="confirmacao-value">{{ horario }}</div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="confirmacao-alert">
+            <div class="confirmacao-alert-title">⚠️ Instruções Importantes:</div>
+            <ul class="confirmacao-list">
+                <li>Compareça à unidade com <strong>30 minutos de antecedência</strong></li>
+                <li>Leve este protocolo impresso ou no celular</li>
+                <li>Apresente seus documentos originais (RG ou CNH)</li>
+                <li>A foto e as impressões digitais serão coletadas no local</li>
+                <li>O pagamento da taxa deve ser feito antes do atendimento</li>
+                <li>Menores de 18 anos devem estar acompanhados dos responsáveis</li>
+            </ul>
+        </div>
+
+        <div class="button-group-center">
+            <a href="{{ url_for('index') }}" class="btn-primary">VOLTAR À PÁGINA INICIAL</a>
+        </div>
+    </div>
+</div>
+
+<style>
+.confirmacao-container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+.confirmacao-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.confirmacao-icon {
+    width: 80px;
+    height: 80px;
+    background: #28a745;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    margin: 0 auto 15px auto;
+    font-weight: bold;
+}
+
+.confirmacao-title {
+    font-size: 28px;
+    color: #28a745;
+    font-weight: bold;
+    margin: 0;
+}
+
+.confirmacao-content {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.confirmacao-protocolo {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 25px;
+}
+
+.confirmacao-label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.confirmacao-value-destaque {
+    font-size: 24px;
+    font-weight: bold;
+    color: #337ab7;
+    font-family: 'Courier New', monospace;
+}
+
+.confirmacao-section {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.confirmacao-section:last-of-type {
+    border-bottom: none;
+}
+
+.confirmacao-section-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #337ab7;
+    margin-bottom: 15px;
+}
+
+.confirmacao-info {
+    margin-bottom: 10px;
+}
+
+.confirmacao-value {
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+.confirmacao-alert {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 25px 0;
+}
+
+.confirmacao-alert-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #856404;
+    margin-bottom: 12px;
+}
+
+.confirmacao-list {
+    margin: 0;
+    padding-left: 20px;
+    color: #856404;
+}
+
+.confirmacao-list li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.confirmacao-list strong {
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .confirmacao-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 40px;
+    }
+    
+    .confirmacao-title {
+        font-size: 22px;
+    }
+    
+    .confirmacao-value-destaque {
+        font-size: 18px;
+    }
+}
+</style>
+
+{% endblock %}

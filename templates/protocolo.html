@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="title">
+    Nova solicitação de passaporte
+</div>
+
+<div class="protocolo-container">
+    <div class="protocolo-header">
+        <div class="protocolo-logo">
+            <img src="https://employer.com.br/wp-content/uploads/2022/06/Lei-do-PIS.png" alt="Brasão da República" width="65" height="65">
+        </div>
+        <div class="protocolo-title">
+            <h1>Protocolo de Solicitação<br>de Documento de Viagem</h1>
+        </div>
+    </div>
+
+    <div class="protocolo-info-row">
+        <div class="protocolo-info-cell">
+            <span class="protocolo-info-label">Tipo de Documento de Viagem:</span><br>
+            PASSAPORTE COMUM - ICAO
+        </div>
+        <div class="protocolo-info-cell">
+            <span class="protocolo-info-label">Emissão do Protocolo:</span><br>
+            {{ data_emissao }}
+        </div>
+    </div>
+
+    <div class="protocolo-numero-section">
+        <span>Protocolo: {{ protocolo }}</span>
+    </div>
+
+    <div class="protocolo-dados-section">
+        <div class="protocolo-dados-title">Dados da Solicitação</div>
+        <div class="protocolo-dados-content">
+            <div class="protocolo-label">Requerente:</div>
+            
+            <div class="protocolo-dados-row">
+                <div class="protocolo-field">
+                    <span class="protocolo-label">Nome Completo:</span>
+                    {{ dados_pessoais.get('nome', '').upper() }}
+                </div>
+            </div>
+            
+            <div class="protocolo-dados-row">
+                <div class="protocolo-field">
+                    <span class="protocolo-label">Sexo:</span>
+                    {{ dados_pessoais.get('sexo', '').capitalize() }}
+                </div>
+                <div class="protocolo-field">
+                    <span class="protocolo-label">Data de Nascimento:</span>
+                    {{ dados_pessoais.get('data_nascimento', '') }}
+                </div>
+            </div>
+            
+            <div class="protocolo-dados-row">
+                <div class="protocolo-field">
+                    <span class="protocolo-label">País de Nascimento:</span>
+                    {{ dados_pessoais.get('pais', '') }}
+                </div>
+            </div>
+            
+            <div class="protocolo-dados-row">
+                <div class="protocolo-field">
+                    <span class="protocolo-label">UF de Nascimento:</span>
+                    {{ dados_pessoais.get('uf', '') }}
+                </div>
+            </div>
+            
+            <div class="protocolo-dados-row">
+                <div class="protocolo-field">
+                    <span class="protocolo-label">Cidade de Nascimento:</span>
+                    {{ dados_pessoais.get('cidade', '') }}
+                </div>
+            </div>
+            
+            <div class="protocolo-dados-row">
+                <div class="protocolo-field">
+                    <span class="protocolo-label">País de Nacionalidade:</span>
+                    {{ dados_pessoais.get('nacionalidade', '') }}
+                </div>
+            </div>
+            
+            <div class="protocolo-endereco">
+                <span class="protocolo-label">Endereço:</span>
+                {{ dados_complementares.get('logradouro', '').upper() }} - {{ dados_complementares.get('bairro', '').upper() }} - {{ dados_complementares.get('cidade_endereco', '').upper() }}/{{ dados_complementares.get('uf_endereco', '').upper() }} - BRASIL<br>
+                CEP: {{ dados_complementares.get('cep', '') }}
+            </div>
+        </div>
+    </div>
+
+    <div class="protocolo-info-important">
+        <div class="protocolo-info-important-title">INFORMAÇÕES IMPORTANTES:</div>
+        - Caso o documento de viagem não seja retirado no prazo de 90 (noventa) dias, contados a partir da confirmação de pedido de passaporte no posto da PF, o mesmo será cancelado;<br>
+        - A solicitação de passaporte preenchida eletronicamente e não confirmada, no posto da PF, em até 90 (noventa) dias será cancelada automaticamente;<br>
+        - Os documentos apresentados poderão ser recusados se o tempo de expedição e/ou o mau estado de conservação impossibilitarem a identificação do requerente;<br>
+        - O simples agendamento e/ou recibo bancário não comprova o pagamento da taxa;<br>
+        - Para crianças menores de 3 anos de idade deverá ser apresentada 1(uma) fotografia facial, tamanho 5X7, recente, colorida, sem data e em fundo branco.<br>
+        - Em algumas unidades é obrigatório o agendamento prévio do atendimento pelo site www.dpf.gov.br.<br>
+        - Comparecer ao Posto de Atendimento do Departamento de Polícia Federal, munido deste protocolo e de documentos originais, para validação e coleta de foto, impressões digitais e assinatura.
+    </div>
+</div>
+
+<div class="agendamento-container">
+    <div class="agendamento-title">Selecione a Unidade de Atendimento</div>
+    <div class="agendamento-subtitle">Unidades mais próximas ao seu endereço (CEP: {{ dados_complementares.get('cep', '') }})</div>
+    
+    <form method="POST" action="{{ url_for('protocolo') }}" id="formAgendamento">
+        {% if unidades %}
+            {% for unidade in unidades %}
+            <div class="unidade-card">
+                <input type="radio" name="unidade_id" id="unidade_{{ unidade.id }}" value="{{ unidade.id }}" required>
+                <label for="unidade_{{ unidade.id }}" class="unidade-label">
+                    <div class="unidade-nome">{{ unidade.nome }}</div>
+                    <div class="unidade-endereco">{{ unidade.endereco }}</div>
+                    <div class="unidade-cidade">{{ unidade.cidade }}/{{ unidade.uf }} - CEP: {{ unidade.cep }}</div>
+                    <div class="unidade-telefone">Tel: {{ unidade.telefone }}</div>
+                </label>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-unidades">Nenhuma unidade encontrada para o CEP informado.</div>
+        {% endif %}
+        
+        <div class="agendamento-datetime">
+            <div class="form-group">
+                <label class="form-label required" for="data_agendamento">Selecione a Data:</label>
+                <select class="form-select" id="data_agendamento" name="data_agendamento" required>
+                    <option value="" disabled selected>Selecione uma data</option>
+                    {% for data in datas %}
+                    <option value="{{ data }}">{{ data | replace('-', '/') }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label required" for="horario_agendamento">Selecione o Horário:</label>
+                <select class="form-select" id="horario_agendamento" name="horario_agendamento" required>
+                    <option value="" disabled selected>Selecione um horário</option>
+                    {% for horario in horarios %}
+                    <option value="{{ horario }}">{{ horario }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div class="button-group-center">
+            <button type="submit" class="btn-primary">CONFIRMAR AGENDAMENTO</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
