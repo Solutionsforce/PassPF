@@ -1,0 +1,147 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmação de Informações</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      font-family: 'Open Sans', Arial, sans-serif;
+    }
+    .container {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 15px;
+      box-sizing: border-box;
+      min-height: 100vh;
+    }
+    h2 {
+      color: #2b6ca3;
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 12px 0;
+      line-height: 1.3;
+    }
+    p {
+      color: #333;
+      font-size: 14px;
+      margin: 0 0 18px 0;
+      line-height: 1.4;
+    }
+    .info-label {
+      color: #2b6ca3;
+      font-size: 14px;
+      margin: 15px 0 3px 0;
+      display: block;
+    }
+    .info-value {
+      color: #333;
+      font-size: 14px;
+      font-weight: bold;
+      margin: 0 0 15px 0;
+      display: block;
+    }
+    .info-slash {
+      color: #333;
+      font-size: 14px;
+      margin: 0 0 15px 0;
+      display: block;
+    }
+    .checkbox-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 25px 0;
+    }
+    .checkbox {
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      min-height: 16px;
+      margin-bottom: 8px;
+      border: 1px solid #ccc;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-color: #fff;
+      border-radius: 0;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .checkbox-label {
+      font-size: 13px;
+      color: #333;
+      line-height: 1.4;
+      margin-left: 0;
+      margin-top: 0;
+      display: block;
+      max-width: 100%;
+    }
+    .button-container {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .btn {
+      padding: 8px 25px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background-color: #2b6ca3;
+      color: white;
+    }
+    .btn-disabled {
+      background-color: #a9c1d9;
+      color: white;
+    }
+    strong {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Confira atentamente as informações abaixo:</h2>
+    
+    <p>Caso detecte algum erro nos dados a seguir, volte ao campo correspondente para corrigir. Erro em algum desses campos implicará em <strong>ATRASO</strong> na entrega do seu passaporte. Seguindo o padrão internacional ICAO, os sobrenomes poderão ser abreviados na impressão do documento de viagem.</p>
+    
+    <div class="info-label">Nome Completo</div>
+    
+    <div class="info-label">Nacionalidade</div>
+    <div class="info-value">BRASIL</div>
+    
+    <div class="info-label">Data de Nascimento</div>
+    
+    <div class="info-label">Sexo</div>
+    
+    <div class="info-label">Naturalidade</div>
+    <div class="info-slash">/</div>
+    
+    <div class="info-label">Filiação</div>
+    
+    <div class="checkbox-container">
+      <input type="checkbox" class="checkbox" id="declaration">
+      <label class="checkbox-label" for="declaration">
+        Declaro que as informações acima estão corretas e que estou ciente de que qualquer erro nos dados implicará em atraso na emissão do meu documento de viagem.
+      </label>
+    </div>
+    
+    <div class="button-container">
+      <button class="btn btn-primary">ANTERIOR</button>
+      <button class="btn btn-disabled">ENVIAR</button>
+    </div>
+  </div>
+</body>
+</html>

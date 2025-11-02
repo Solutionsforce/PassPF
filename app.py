@@ -47,14 +47,19 @@ def dados_complementares():
     dados = session.get('dados_complementares', {})
     return render_template('dados_complementares.html', secao='dados-complementares', dados=dados)
 
-@app.route('/nova-solicitacao/revisar-dados')
+@app.route('/nova-solicitacao/revisar-dados', methods=['GET', 'POST'])
 def revisar_dados():
-    dados_completos = {
-        'dados_pessoais': session.get('dados_pessoais', {}),
-        'documentos': session.get('documentos', {}),
-        'dados_complementares': session.get('dados_complementares', {})
-    }
-    return render_template('nova_solicitacao.html', secao='revisar-dados', dados=dados_completos)
+    if request.method == 'POST':
+        return redirect(url_for('confirmacao'))
+    
+    dados_pessoais = session.get('dados_pessoais', {})
+    dados_documentos = session.get('documentos', {})
+    dados_complementares = session.get('dados_complementares', {})
+    
+    return render_template('revisar_dados.html', 
+                         dados_pessoais=dados_pessoais,
+                         dados_documentos=dados_documentos,
+                         dados_complementares=dados_complementares)
 
 @app.route('/agendar', methods=['POST'])
 def agendar():

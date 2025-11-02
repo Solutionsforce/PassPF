@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="alert-warning">
+    Não utilize o botão voltar do seu navegador pois todos os dados serão perdidos. Utilize apenas os botões do próprio formulário.
+</div>
+
+<div class="title nova-solicitacao">
+    Nova solicitação de passaporte
+</div>
+
+<div class="main-box">
+    <div class="main-box-content">
+        <a href="{{ url_for('dados_pessoais') }}" class="nav-link">Dados pessoais</a>
+        <a href="{{ url_for('documentos') }}" class="nav-link">Documentos</a>
+        <a href="{{ url_for('dados_complementares') }}" class="nav-link">Dados complementares</a>
+        <a href="{{ url_for('revisar_dados') }}" class="nav-link active">Revisar dados</a>
+    </div>
+    <div class="main-box-footer">
+        (*) Preenchimento Obrigatório
+    </div>
+</div>
+
+<div class="form-container-wrapper">
+    <div class="form-container">
+        <form method="POST" action="{{ url_for('revisar_dados') }}" id="formRevisar">
+            
+            <div class="revisar-title">Confira atentamente as informações abaixo:</div>
+
+            <div class="revisar-info-text">
+                Caso detecte algum erro nos dados a seguir, volte ao campo correspondente para corrigir. Erro em algum desses campos implicará em <strong>ATRASO</strong> na entrega do seu passaporte. Seguindo o padrão internacional ICAO, os sobrenomes poderão ser abreviados na impressão do documento de viagem.
+            </div>
+
+            <div class="revisar-label">Nome Completo</div>
+            <div class="revisar-value">{{ dados_pessoais.get('nome_completo', '') }}</div>
+
+            <div class="revisar-label">Nacionalidade</div>
+            <div class="revisar-value">{{ dados_pessoais.get('nacionalidade', 'BRASIL') }}</div>
+
+            <div class="revisar-label">Data de Nascimento</div>
+            <div class="revisar-value">{{ dados_pessoais.get('data_nascimento', '') }}</div>
+
+            <div class="revisar-label">Sexo</div>
+            <div class="revisar-value">{{ dados_pessoais.get('sexo', '') }}</div>
+
+            <div class="revisar-label">Naturalidade</div>
+            <div class="revisar-value">{{ dados_pessoais.get('cidade_nascimento', '') }} / {{ dados_pessoais.get('uf_nascimento', '') }}</div>
+
+            <div class="revisar-label">Filiação</div>
+            <div class="revisar-value">{{ dados_pessoais.get('filiacao_1', '') }}</div>
+            <div class="revisar-value">{{ dados_pessoais.get('filiacao_2', '') }}</div>
+
+            <div class="revisar-checkbox-container">
+                <input type="checkbox" class="revisar-checkbox" id="declaracao" name="declaracao" required>
+                <label class="revisar-checkbox-label" for="declaracao">
+                    Declaro que as informações acima estão corretas e que estou ciente de que qualquer erro nos dados implicará em atraso na emissão do meu documento de viagem.
+                </label>
+            </div>
+
+            <div class="doc-button-row">
+                <a href="{{ url_for('dados_complementares') }}" class="doc-btn-anterior">ANTERIOR</a>
+                <button type="submit" class="doc-btn-proximo" id="btnEnviar">ENVIAR</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const checkbox = document.getElementById('declaracao');
+    const btnEnviar = document.getElementById('btnEnviar');
+    
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            btnEnviar.disabled = false;
+            btnEnviar.style.background = '#2176c7';
+            btnEnviar.style.cursor = 'pointer';
+        } else {
+            btnEnviar.disabled = true;
+            btnEnviar.style.background = '#a9c1d9';
+            btnEnviar.style.cursor = 'not-allowed';
+        }
+    });
+    
+    btnEnviar.disabled = true;
+    btnEnviar.style.background = '#a9c1d9';
+    btnEnviar.style.cursor = 'not-allowed';
+</script>
+{% endblock %}

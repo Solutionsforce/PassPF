@@ -14,7 +14,7 @@
         <a href="{{ url_for('dados_pessoais') }}" class="nav-link {% if secao == 'dados-pessoais' %}active{% endif %}">Dados pessoais</a>
         <a href="{{ url_for('documentos') }}" class="nav-link {% if secao == 'documentos' %}active{% endif %}">Documentos</a>
         <a href="{{ url_for('dados_complementares') }}" class="nav-link {% if secao == 'dados-complementares' %}active{% endif %}">Dados complementares</a>
-        <a href="#" class="nav-link {% if secao == 'revisar-dados' %}active{% endif %}">Revisar dados</a>
+        <a href="{{ url_for('revisar_dados') }}" class="nav-link {% if secao == 'revisar-dados' %}active{% endif %}">Revisar dados</a>
     </div>
     <div class="main-box-footer">
         (*) Preenchimento Obrigatório
