@@ -156,6 +156,24 @@
             </div>
         </div>
         
+        <div id="resumo-agendamento" class="resumo-agendamento-container" style="display: none;">
+            <div class="resumo-agendamento-titulo">Resumo do Agendamento</div>
+            <div class="resumo-agendamento-conteudo">
+                <div class="resumo-item">
+                    <span class="resumo-label">Unidade de Atendimento:</span>
+                    <span id="resumo-unidade" class="resumo-valor">-</span>
+                </div>
+                <div class="resumo-item">
+                    <span class="resumo-label">Data do Atendimento:</span>
+                    <span id="resumo-data" class="resumo-valor">-</span>
+                </div>
+                <div class="resumo-item">
+                    <span class="resumo-label">Horário do Atendimento:</span>
+                    <span id="resumo-horario" class="resumo-valor">-</span>
+                </div>
+            </div>
+        </div>
+        
         <div class="declaracoes-container">
             <div class="declaracao-item">
                 <input type="checkbox" id="declaracao_comparecimento" name="declaracao_comparecimento" required>
@@ -228,5 +246,54 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const unidadeRadios = document.querySelectorAll('input[name="unidade_id"]');
+    const dataSelect = document.getElementById('data_agendamento');
+    const horarioSelect = document.getElementById('horario_agendamento');
+    const resumoContainer = document.getElementById('resumo-agendamento');
+    const resumoUnidade = document.getElementById('resumo-unidade');
+    const resumoData = document.getElementById('resumo-data');
+    const resumoHorario = document.getElementById('resumo-horario');
+    
+    let unidadeSelecionada = null;
+    let dataSelecionada = null;
+    let horarioSelecionado = null;
+    
+    function atualizarResumo() {
+        if (unidadeSelecionada && dataSelecionada && horarioSelecionado) {
+            resumoContainer.style.display = 'block';
+        }
+    }
+    
+    unidadeRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            const label = this.nextElementSibling;
+            const orgao = label.querySelector('.unidade-orgao').textContent;
+            const nome = label.querySelector('.unidade-nome').textContent;
+            const endereco = label.querySelector('.unidade-endereco').textContent;
+            const cidade = label.querySelector('.unidade-cidade').textContent;
+            
+            unidadeSelecionada = orgao + ' - ' + nome + ', ' + endereco + ', ' + cidade;
+            resumoUnidade.textContent = unidadeSelecionada;
+            atualizarResumo();
+        });
+    });
+    
+    dataSelect.addEventListener('change', function() {
+        dataSelecionada = this.value;
+        const dataFormatada = dataSelecionada.split('-').reverse().join('/');
+        resumoData.textContent = dataFormatada;
+        atualizarResumo();
+    });
+    
+    horarioSelect.addEventListener('change', function() {
+        horarioSelecionado = this.value;
+        resumoHorario.textContent = horarioSelecionado;
+        atualizarResumo();
+    });
+});
+</script>
 
 {% endblock %}

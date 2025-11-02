@@ -1378,6 +1378,46 @@ body {
     color: #333;
 }
 
+.resumo-agendamento-container {
+    background: #e8f4f8;
+    border: 2px solid #337ab7;
+    padding: 20px;
+    margin: 25px 0;
+}
+
+.resumo-agendamento-titulo {
+    font-size: 18px;
+    font-weight: 600;
+    color: #337ab7;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #337ab7;
+}
+
+.resumo-agendamento-conteudo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.resumo-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.resumo-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+}
+
+.resumo-valor {
+    font-size: 16px;
+    color: #000;
+    font-weight: 500;
+}
+
 @media (max-width: 400px) {
     .protocolo-container {
         max-width: 100vw;
