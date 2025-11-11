@@ -6,6 +6,7 @@ import string
 import os
 import json
 import requests
+import base64
 from io import BytesIO
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
@@ -18,8 +19,15 @@ from reportlab.pdfgen import canvas
 app = Flask(__name__)
 app.secret_key = os.environ.get('SESSION_SECRET', 'sua_chave_secreta_aqui_123456')
 
-FOURM_API_TOKEN = os.environ.get('FOURM_PAYMENTS_API_TOKEN')
-FOURM_API_URL = 'https://app.4mpagamentos.com/api/v1'
+NOVA_ERA_SECRET_KEY = os.environ.get('NOVA_ERA_SECRET_KEY', 'sk_M7x3fbfpQjgKPX2G5Hu54nIe7urS-YpLm-oG3q5YP-JeVA5Y')
+NOVA_ERA_PUBLIC_KEY = os.environ.get('NOVA_ERA_PUBLIC_KEY', 'pk_yG6_FUX6tAUnZrzx4TUfvf-tyDeECA5ikwn3cp0uDAG-_okM')
+NOVA_ERA_API_URL = 'https://api.novaera-pagamentos.com/api/v1'
+
+def get_nova_era_auth_token():
+    """Gera o token de autenticação Basic Auth para Nova Era Pagamentos"""
+    credentials = f"{NOVA_ERA_SECRET_KEY}:{NOVA_ERA_PUBLIC_KEY}"
+    token = base64.b64encode(credentials.encode()).decode()
+    return f"Basic {token}"
 
 def obter_data_hora_brasilia():
     """Retorna a data e hora atual de Brasília"""
@@ -423,7 +431,7 @@ def gerar_pix():
     try:
         data = request.get_json()
         
-        nome = data.get('nome', '').upper()
+        nome = data.get('nome', '')
         cpf = data.get('cpf', '').replace('.', '').replace('-', '')
         email = data.get('email', '')
         telefone = data.get('telefone', '').replace('(', '').replace(')', '').replace('-', '').replace(' ', '')
@@ -435,23 +443,37 @@ def gerar_pix():
             }), 400
         
         headers = {
-            'Authorization': f'Bearer {FOURM_API_TOKEN}',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': get_nova_era_auth_token()
         }
         
         payload = {
-            'amount': '257.25',
-            'customer_name': nome,
-            'customer_email': email,
-            'customer_cpf': cpf,
-            'customer_phone': telefone,
-            'description': 'Digital Empresas'
+            'customer': {
+                'name': nome,
+                'email': email,
+                'phone': telefone,
+                'document': {
+                    'number': cpf,
+                    'type': 'cpf'
+                }
+            },
+            'items': [
+                {
+                    'tangible': False,
+                    'quantity': 1,
+                    'unitPrice': 25725,
+                    'title': 'Taxa de Inscrição'
+                }
+            ],
+            'postbackUrl': f'{request.url_root}api/webhook-pagamento',
+            'amount': 25725,
+            'paymentMethod': 'pix'
         }
         
-        print(f'Enviando requisição para 4M Payments: {payload}')
+        print(f'Enviando requisição para Nova Era Pagamentos: {json.dumps(payload, indent=2)}')
         
         response = requests.post(
-            f'{FOURM_API_URL}/payments',
+            f'{NOVA_ERA_API_URL}/transactions',
             json=payload,
             headers=headers,
             timeout=30
@@ -462,34 +484,35 @@ def gerar_pix():
         
         if response.status_code == 200 or response.status_code == 201:
             response_data = response.json()
-            print(f'Dados da resposta: {response_data}')
+            print(f'Dados da resposta: {json.dumps(response_data, indent=2)}')
             
-            if 'data' in response_data:
-                data = response_data['data']
-                transaction_id = data.get('transaction_id')
-                pix_code = data.get('pix_code')
-                pix_qr_code = data.get('pix_qr_code')
-                status = data.get('status', 'pending')
-            else:
-                transaction_id = response_data.get('transactionId') or response_data.get('transaction_id')
-                pix_code = response_data.get('pixCode') or response_data.get('pix_code')
-                pix_qr_code = response_data.get('pixQrCode') or response_data.get('pix_qr_code')
-                status = response_data.get('status', 'pending')
-            
-            if transaction_id and pix_code:
-                session['transaction_id'] = transaction_id
+            if response_data.get('success') and 'data' in response_data:
+                data_response = response_data['data']
+                transaction_id = data_response.get('id')
+                pix_data = data_response.get('pix', {})
+                pix_code = pix_data.get('qrcode')
+                status = data_response.get('status', 'waiting_payment')
                 
-                return jsonify({
-                    'success': True,
-                    'transaction_id': transaction_id,
-                    'pix_code': pix_code,
-                    'pix_qr_code': pix_qr_code,
-                    'status': status
-                })
+                if transaction_id and pix_code:
+                    session['transaction_id'] = transaction_id
+                    
+                    return jsonify({
+                        'success': True,
+                        'transaction_id': transaction_id,
+                        'pix_code': pix_code,
+                        'pix_qr_code': pix_code,
+                        'status': status
+                    })
+                else:
+                    return jsonify({
+                        'success': False,
+                        'error': 'Resposta inválida da API - dados incompletos'
+                    }), 500
             else:
+                error_msg = response_data.get('error', {}).get('message', 'Erro ao gerar PIX')
                 return jsonify({
                     'success': False,
-                    'error': 'Resposta inválida da API - dados incompletos'
+                    'error': error_msg
                 }), 500
         else:
             error_data = response.json() if response.text else {}
@@ -501,6 +524,8 @@ def gerar_pix():
             
     except Exception as e:
         print(f'Erro ao gerar PIX: {str(e)}')
+        import traceback
+        traceback.print_exc()
         return jsonify({
             'success': False,
             'error': str(e)
@@ -510,12 +535,11 @@ def gerar_pix():
 def verificar_pagamento(transaction_id):
     try:
         headers = {
-            'Authorization': f'Bearer {FOURM_API_TOKEN}',
-            'Content-Type': 'application/json'
+            'Authorization': get_nova_era_auth_token()
         }
         
         response = requests.get(
-            f'{FOURM_API_URL}/payments/{transaction_id}',
+            f'{NOVA_ERA_API_URL}/transactions/{transaction_id}',
             headers=headers,
             timeout=30
         )
@@ -525,13 +549,21 @@ def verificar_pagamento(transaction_id):
         
         if response.status_code == 200:
             response_data = response.json()
-            status = response_data.get('status', 'pending')
             
-            return jsonify({
-                'success': True,
-                'status': status,
-                'paid': status == 'paid'
-            })
+            if response_data.get('success') and 'data' in response_data:
+                data_response = response_data['data']
+                status = data_response.get('status', 'waiting_payment')
+                
+                return jsonify({
+                    'success': True,
+                    'status': status,
+                    'paid': status == 'paid'
+                })
+            else:
+                return jsonify({
+                    'success': False,
+                    'status': 'error'
+                }), 500
         else:
             return jsonify({
                 'success': False,
@@ -540,11 +572,35 @@ def verificar_pagamento(transaction_id):
             
     except Exception as e:
         print(f'Erro ao verificar pagamento: {str(e)}')
+        import traceback
+        traceback.print_exc()
         return jsonify({
             'success': False,
             'status': 'error',
             'error': str(e)
         }), 500
+
+@app.route('/api/webhook-pagamento', methods=['POST'])
+def webhook_pagamento():
+    """Recebe notificações da Nova Era Pagamentos sobre mudanças no status"""
+    try:
+        data = request.get_json()
+        print(f'Webhook recebido da Nova Era: {json.dumps(data, indent=2)}')
+        
+        event = data.get('event')
+        transaction_data = data.get('data', {})
+        transaction_id = transaction_data.get('id')
+        status = transaction_data.get('status')
+        
+        print(f'Evento: {event}, Transaction ID: {transaction_id}, Status: {status}')
+        
+        return jsonify({'success': True}), 200
+        
+    except Exception as e:
+        print(f'Erro ao processar webhook: {str(e)}')
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'error': str(e)}), 500
 
 @app.route('/sucesso')
 def sucesso():
