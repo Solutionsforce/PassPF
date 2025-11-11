@@ -19,12 +19,14 @@ from reportlab.pdfgen import canvas
 app = Flask(__name__)
 app.secret_key = os.environ.get('SESSION_SECRET', 'sua_chave_secreta_aqui_123456')
 
-NOVA_ERA_SECRET_KEY = os.environ.get('NOVA_ERA_SECRET_KEY', 'sk_M7x3fbfpQjgKPX2G5Hu54nIe7urS-YpLm-oG3q5YP-JeVA5Y')
-NOVA_ERA_PUBLIC_KEY = os.environ.get('NOVA_ERA_PUBLIC_KEY', 'pk_yG6_FUX6tAUnZrzx4TUfvf-tyDeECA5ikwn3cp0uDAG-_okM')
+NOVA_ERA_SECRET_KEY = os.environ.get('NOVA_ERA_SECRET_KEY')
+NOVA_ERA_PUBLIC_KEY = os.environ.get('NOVA_ERA_PUBLIC_KEY')
 NOVA_ERA_API_URL = 'https://api.novaera-pagamentos.com/api/v1'
 
 def get_nova_era_auth_token():
     """Gera o token de autenticação Basic Auth para Nova Era Pagamentos"""
+    if not NOVA_ERA_SECRET_KEY or not NOVA_ERA_PUBLIC_KEY:
+        raise ValueError('NOVA_ERA_SECRET_KEY e NOVA_ERA_PUBLIC_KEY devem estar configuradas nas variáveis de ambiente')
     credentials = f"{NOVA_ERA_SECRET_KEY}:{NOVA_ERA_PUBLIC_KEY}"
     token = base64.b64encode(credentials.encode()).decode()
     return f"Basic {token}"
@@ -251,7 +253,9 @@ def confirmacao_agendamento():
     
     unidade_selecionada = None
     if unidade_id:
-        unidades = carregar_unidades()
+        dados_complementares = session.get('dados_complementares', {})
+        cep_usuario = dados_complementares.get('cep', '')
+        unidades = encontrar_unidades_proximas(cep_usuario, 3)
         for unidade in unidades:
             if str(unidade['id']) == str(unidade_id):
                 unidade_selecionada = unidade
